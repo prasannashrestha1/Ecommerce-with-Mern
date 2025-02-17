@@ -1,6 +1,7 @@
 import React from "react";
 import { Routes, Route, BrowserRouter } from "react-router-dom";
 import UserLayout from "./components/Layout/UserLayout";
+import { ToastContainer } from "react-toastify";
 
 const App = () => {
   return (
@@ -9,6 +10,7 @@ const App = () => {
         {/* user layout */}
         <Route path="/" element={<UserLayout />}></Route>
       </Routes>
+      <ToastContainer />
     </BrowserRouter>
   );
 };
