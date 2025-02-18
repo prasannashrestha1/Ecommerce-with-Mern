@@ -15,3 +15,16 @@ body {
     font-optical-sizing: auto;
   font-style: normal;
 }
+
+.cart-container {
+  @apply fixed top-0 right-0 w-screen sm:w-[440px] bg-stroke h-screen px-4 py-8 border-r-2 z-10 transform transition-transform flex flex-col gap-4 duration-300 
+}
+
+.checkout-btn {
+  @apply grow px-4 py-2 bg-primary text-white rounded-lg hover:bg-primary/80 cursor-pointer
+
+}
+
+.cart-add-minus {
+  @apply p-0.5 h-fit rounded-sm bg-[#F9F9FB] hover:bg-primary/5 cursor-pointer
+}

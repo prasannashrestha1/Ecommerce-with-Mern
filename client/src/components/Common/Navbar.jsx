@@ -1,13 +1,22 @@
-import React from "react";
+import React, { useState } from "react";
 import { Link, NavLink } from "react-router-dom";
 import { BsPersonFill } from "react-icons/bs";
 import { IoCart } from "react-icons/io5";
 import { FaSearch } from "react-icons/fa";
 import { HiBars3BottomRight } from "react-icons/hi2";
 import SearchBar from "./SearchBar";
+import { IoMdClose } from "react-icons/io";
+import CartDrawer from "../Layout/CartDrawer";
 const Navbar = () => {
+  const [search, setSearch] = useState("");
+  const [cartOpen, setCartOpen] = useState(false);
+
+  const handleCartToggle = () => {
+    setCartOpen(!cartOpen);
+  };
+
   return (
-    <div className="w-full bg-primary/5 text-center text-black ">
+    <div className="w-full bg-primary/5 h-fit text-center text-black relative">
       <div className="mx-auto flex justify-between px-8 lg:px-16 py-4 uppercase font-medium">
         <p className="text-lg">Ecommerce</p>
         <div className="hidden md:flex gap-4 text-sm items-center ">
@@ -28,18 +37,27 @@ const Navbar = () => {
           <Link to="/profile" className="hover:text-primary ">
             <BsPersonFill className="w-4 h-4" />
           </Link>
-          <Link to="/" className="hover:text-primary relative">
+          <div
+            onClick={() => setCartOpen(true)}
+            className="hover:text-primary relative"
+          >
             <IoCart className="w-5 h-5" />
             <div className="absolute bg-red-500 px-[4px] py-[2px] left-2.5 top-[12px] rounded-full text-white text-[8px]">
               4
             </div>
-          </Link>
+          </div>
           <SearchBar />
         </div>
         <button className="block md:hidden rounded-full cursor-pointer bg-stroke p-2">
           <HiBars3BottomRight className="w-4 h-4" />
         </button>
       </div>
+
+      <CartDrawer
+        cartOpen={cartOpen}
+        setCartOpen={setCartOpen}
+        handleCartToggle={handleCartToggle}
+      />
     </div>
   );
 };

@@ -4,7 +4,7 @@ import Navbar from "./Navbar";
 
 const Header = () => {
   return (
-    <header className="w-full text-center justify-between border-b border-b-stroke">
+    <header className="card-container">
       <Topbar />
       <Navbar />
     </header>
