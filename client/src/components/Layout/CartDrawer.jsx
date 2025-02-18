@@ -5,7 +5,7 @@ import CartContent from "../Cart/CartContent";
 const CartDrawer = ({ cartOpen, handleCartToggle }) => {
   return (
     <div
-      className={` cart-container  ${
+      className={` cart-container w-screen sm:w-[440px] ${
         cartOpen ? "translate-x-0" : "translate-x-full"
       }`}
     >

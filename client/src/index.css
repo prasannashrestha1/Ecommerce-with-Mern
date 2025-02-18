@@ -17,7 +17,7 @@ body {
 }
 
 .cart-container {
-  @apply fixed top-0 right-0 w-screen sm:w-[440px] bg-stroke h-screen px-4 py-8 border-r-2 z-10 transform transition-transform flex flex-col gap-4 duration-300 
+  @apply fixed top-0 right-0  bg-stroke h-screen px-4 py-8 border-r-2 z-10 transform transition-transform flex flex-col gap-4 duration-300 
 }
 
 .checkout-btn {

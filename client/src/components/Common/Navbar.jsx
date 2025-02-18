@@ -10,9 +10,13 @@ import CartDrawer from "../Layout/CartDrawer";
 const Navbar = () => {
   const [search, setSearch] = useState("");
   const [cartOpen, setCartOpen] = useState(false);
+  const [navDrawerOpen, setNavDrawerOpen] = useState(false);
 
   const handleCartToggle = () => {
     setCartOpen(!cartOpen);
+  };
+  const handleNavDrawerToggle = () => {
+    setNavDrawerOpen(!navDrawerOpen);
   };
 
   return (
@@ -48,7 +52,10 @@ const Navbar = () => {
           </div>
           <SearchBar />
         </div>
-        <button className="block md:hidden rounded-full cursor-pointer bg-stroke p-2">
+        <button
+          onClick={handleNavDrawerToggle}
+          className="block md:hidden rounded-full cursor-pointer bg-stroke p-2"
+        >
           <HiBars3BottomRight className="w-4 h-4" />
         </button>
       </div>
@@ -58,6 +65,48 @@ const Navbar = () => {
         setCartOpen={setCartOpen}
         handleCartToggle={handleCartToggle}
       />
+
+      {/* Mobile Navigation */}
+      <div
+        className={` cart-container w-screen sm:w-[300px] ${
+          navDrawerOpen ? "translate-x-0" : "translate-x-full"
+        }`}
+      >
+        <div className="flex justify-between  cursor-pointer">
+          <h1 className="  font-semibold text-xl">Menu</h1>
+          <IoMdClose className="w-6 h-6" onClick={handleNavDrawerToggle} />
+        </div>
+        <div className="flex flex-col gap-4 text-md items-center ">
+          <NavLink
+            to="/"
+            onClick={handleNavDrawerToggle}
+            className="hover:text-primary"
+          >
+            Men
+          </NavLink>
+          <NavLink
+            to="/"
+            onClick={handleNavDrawerToggle}
+            className="hover:text-primary"
+          >
+            Women
+          </NavLink>
+          <NavLink
+            to="/"
+            onClick={handleNavDrawerToggle}
+            className="hover:text-primary"
+          >
+            Top Wear
+          </NavLink>
+          <NavLink
+            to="/"
+            onClick={handleNavDrawerToggle}
+            className="hover:text-primary"
+          >
+            Bottom Wear
+          </NavLink>
+        </div>
+      </div>
     </div>
   );
 };
