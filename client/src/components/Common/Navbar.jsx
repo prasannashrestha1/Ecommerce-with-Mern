@@ -37,27 +37,29 @@ const Navbar = () => {
             Bottom Wear
           </NavLink>
         </div>
-        <div className="hidden md:flex gap-4 text-sm items-center">
-          <Link to="/profile" className="hover:text-primary ">
-            <BsPersonFill className="w-4 h-4" />
-          </Link>
-          <div
-            onClick={() => setCartOpen(true)}
-            className="hover:text-primary relative"
-          >
-            <IoCart className="w-5 h-5" />
-            <div className="absolute bg-red-500 px-[4px] py-[2px] left-2.5 top-[12px] rounded-full text-white text-[8px]">
-              4
+        <div className="flex space-x-4 ">
+          <div className="flex gap-4 text-sm items-center">
+            <Link to="/profile" className="hover:text-primary ">
+              <BsPersonFill className="w-4 h-4" />
+            </Link>
+            <div
+              onClick={() => setCartOpen(true)}
+              className="hover:text-primary relative"
+            >
+              <IoCart className="w-5 h-5" />
+              <div className="absolute bg-red-500 px-[4px] py-[2px] left-2.5 top-[12px] rounded-full text-white text-[8px]">
+                4
+              </div>
             </div>
+            <SearchBar />
           </div>
-          <SearchBar />
+          <button
+            onClick={handleNavDrawerToggle}
+            className="block md:hidden h-fit rounded-full cursor-pointer bg-stroke p-2"
+          >
+            <HiBars3BottomRight className="w-4 h-4" />
+          </button>
         </div>
-        <button
-          onClick={handleNavDrawerToggle}
-          className="block md:hidden rounded-full cursor-pointer bg-stroke p-2"
-        >
-          <HiBars3BottomRight className="w-4 h-4" />
-        </button>
       </div>
 
       <CartDrawer
