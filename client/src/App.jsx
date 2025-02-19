@@ -1,7 +1,7 @@
 import React from "react";
 import { Routes, Route, BrowserRouter } from "react-router-dom";
 import UserLayout from "./components/Layout/UserLayout";
-import { ToastContainer } from "react-toastify";
+import { Toaster } from "sonner";
 import Home from "./Pages/Home";
 
 const App = () => {
@@ -13,7 +13,14 @@ const App = () => {
           <Route index element={<Home />} />
         </Route>
       </Routes>
-      <ToastContainer />
+      <Toaster
+        position="top-right"
+        toastOptions={{
+          style: {
+            background: "F2F4F7",
+          },
+        }}
+      />
     </BrowserRouter>
   );
 };

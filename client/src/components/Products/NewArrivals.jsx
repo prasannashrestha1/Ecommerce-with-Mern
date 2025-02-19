@@ -104,7 +104,7 @@ const NewArrivals = () => {
   };
 
   return (
-    <section className="px-4 sm:px-6 md:px-10 py-10 md:py-20 items-center flex flex-col gap-12 text-center ">
+    <section className="px-4 sm:px-6 md:px-10 py-10 md:py-20 items-center flex flex-col  gap-12 text-center ">
       <div className="flex w-[80%] flex-col md:flex-row justify-between gap-4 items-end md:items-center">
         <span className="hidden md:block"></span>
         <div className=" max-w-[720px]">
@@ -127,19 +127,19 @@ const NewArrivals = () => {
       <div className="w-full ">
         <div
           ref={scrollContainer}
-          className="flex gap-2 overflow-x-scroll max-w-[1560px] pb-2 md:pb-4"
+          className="flex gap-4 mx-auto overflow-x-scroll max-w-[1560px] pb-2 md:pb-4"
         >
           {ad.map((item, index) => (
             <div
               key={index}
-              className="h-[200px] sm:h-[300px] md:h-[400px] rounded-lg min-w-[220px] md:min-w-[300px] flex mb-4 relative"
+              className="h-[200px] sm:h-[250px] md:h-[350px]  rounded-lg min-w-[220px] md:min-w-[300px] flex mb-4 relative"
             >
               <img
                 src={item.images[0].url}
                 className="w-full object-cover rounded-lg"
                 alt={item.images.altText}
               />
-              <div className="absolute bottom-0 w-full bg-black/40 rounded-b-lg p-4 text-sm text-start text-white">
+              <div className="absolute bg-black/50 backdrop-blur-[4px] bottom-0 w-full bgblur rounded-b-lg p-4 text-sm text-start text-white">
                 <p className="font-semibold">{item.name}</p>
                 <p>{item.price}</p>
               </div>
