@@ -3,7 +3,7 @@ import { Link, NavLink } from "react-router-dom";
 
 const Footer = () => {
   return (
-    <footer className="container mx-auto mt-10 border-t-1 p-8 flex space-x-4">
+    <footer className=" mx-auto border-t-1 p-8 flex space-x-4">
       <div className="grid gap-8 grid-cols-1 flex-1 min-[540px]:grid-cols-2 lg:grid-cols-4">
         {/* NewsLetter */}
         <div className="flex flex-col gap-3">

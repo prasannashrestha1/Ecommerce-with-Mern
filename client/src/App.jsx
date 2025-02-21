@@ -3,6 +3,9 @@ import { Routes, Route, BrowserRouter } from "react-router-dom";
 import UserLayout from "./components/Layout/UserLayout";
 import { Toaster } from "sonner";
 import Home from "./Pages/Home";
+import Login from "./Pages/Login";
+import Register from "./Pages/Register";
+import Profile from "./Pages/Profile";
 
 const App = () => {
   return (
@@ -11,6 +14,9 @@ const App = () => {
         {/* user layout */}
         <Route path="/" element={<UserLayout />}>
           <Route index element={<Home />} />
+          <Route path="login" element={<Login />} />
+          <Route path="register" element={<Register />} />
+          <Route path="profile" element={<Profile />} />
         </Route>
       </Routes>
       <Toaster

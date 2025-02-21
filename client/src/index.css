@@ -28,3 +28,7 @@ body {
 .cart-add-minus {
   @apply p-0.5 h-fit rounded-sm bg-[#F9F9FB] hover:bg-primary/5 cursor-pointer
 }
+
+.table {
+  @apply p-2 sm:p-4
+}
