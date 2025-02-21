@@ -24,7 +24,7 @@ const Navbar = () => {
       <div className="mx-auto flex justify-between px-8 lg:px-16 py-4 uppercase font-medium">
         <p className="text-lg">Ecommerce</p>
         <div className="hidden md:flex gap-4 text-sm items-center ">
-          <NavLink to="/" className="hover:text-primary">
+          <NavLink to="/collections/all" className="hover:text-primary">
             Men
           </NavLink>
           <NavLink to="/" className="hover:text-primary">

@@ -3,9 +3,9 @@ import MyOrders from "./MyOrders";
 
 const Profile = () => {
   return (
-    <section className="p-12 flex flex-col lg:flex-row gap-12">
+    <section className="min-h-screen p-12 flex flex-col lg:flex-row gap-12">
       {/* logout section */}
-      <div className="w-full lg:w-1/4">
+      <div className=" bg-white  w-full lg:w-1/4">
         <div className=" px-6 pt-6 pb-20 rounded-lg shadow-xl border-stroke border">
           <h2 className="mb-4 text-2xl font-bold">John Doe</h2>
           <p className="mb-4 text-md break-words">prasanna.shresth@gmail.com</p>
