@@ -145,7 +145,7 @@ const CollectionPage = () => {
       <div
         className={`${
           isSidebarOpen ? "translate-x-0" : "-translate-x-full"
-        } fixed top-0 left-0 h-screen min-w-64 z-50 bg-stroke overflow-y-auto transition-transform duration-300 lg:static lg:translate-x-0`}
+        } fixed top-0 left-0 h-screen min-w-54 z-50 bg-stroke overflow-y-auto transition-transform duration-300 lg:static lg:translate-x-0`}
         ref={sidebarRef}
       >
         <div

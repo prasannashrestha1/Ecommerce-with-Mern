@@ -69,7 +69,7 @@ const FilterSidebar = () => {
   }, [searchParams]);
 
   return (
-    <div className="  w-full h-full p-4">
+    <div className="  w-full h-full p-12">
       <h3 className="text-xl font-medium text-gray-800 mb-4">Filters</h3>
       {/* Categoory Filter */}
       <div className="mb-6">
@@ -107,11 +107,15 @@ const FilterSidebar = () => {
           {colors.map((color) => (
             <button
               key={color}
-              style={{ backgroundColor: color }}
+              style={{ backgroundColor: color.toLowerCase() }}
               className={` w-7 h-7 rounded-full cursor-pointer border border-primary/20 hover:scale-105 transition ease-in duration-150`}
             ></button>
           ))}
         </div>
+      </div>
+      {/* size filter */}
+      <div className="mb-6">
+        <label className="block text-gray-600 "></label>
       </div>
     </div>
   );
