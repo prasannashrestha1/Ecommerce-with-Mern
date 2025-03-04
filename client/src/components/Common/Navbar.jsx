@@ -22,7 +22,9 @@ const Navbar = () => {
   return (
     <div className="w-full bg-primary/5 h-fit text-center text-black relative">
       <div className="mx-auto flex justify-between px-8 lg:px-16 py-4 uppercase font-medium">
-        <p className="text-lg">Ecommerce</p>
+        <Link to="/" className="text-lg">
+          Ecommerce
+        </Link>
         <div className="hidden md:flex gap-4 text-sm items-center ">
           <NavLink to="/collections/all" className="hover:text-primary">
             Men

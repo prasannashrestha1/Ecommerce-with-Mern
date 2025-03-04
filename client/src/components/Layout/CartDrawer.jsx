@@ -15,12 +15,12 @@ const CartDrawer = ({ cartOpen, handleCartToggle }) => {
       </div>
 
       {/* cart area */}
-      <div className="grow h-full">
+      <div className="grow h-[80%]">
         <CartContent />
       </div>
 
       {/* footer area -checkbout button */}
-      <div className="sticky flex flex-col space-y-4 bottom-0 px-4 pt-2">
+      <div className="sticky   flex flex-col space-y-4 bottom-7 px-4 pt-2">
         <button className="checkout-btn">Checkout</button>
         <p className="text-xs text-tsecondary tracking-tighter">
           shipping, taxes, and discount codes calculated at checkout

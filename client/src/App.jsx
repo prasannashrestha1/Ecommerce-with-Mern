@@ -7,6 +7,7 @@ import Login from "./Pages/Login";
 import Register from "./Pages/Register";
 import Profile from "./Pages/Profile";
 import CollectionPage from "./Pages/CollectionPage";
+import ProductDetails from "./components/Products/ProductDetails";
 
 const App = () => {
   return (
@@ -20,6 +21,7 @@ const App = () => {
           <Route path="profile" element={<Profile />} />
           <Route path="profile" element={<Profile />} />
           <Route path="collections/:collection" element={<CollectionPage />} />
+          <Route path="product/:id" element={<ProductDetails />} />
         </Route>
       </Routes>
       <Toaster

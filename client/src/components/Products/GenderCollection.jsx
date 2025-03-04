@@ -8,7 +8,7 @@ const GenderCollection = () => {
     <section className="flex flex-col md:flex-row  gap-8 py-16 px-8">
       <Link
         to="/collections/all?gender=Men"
-        className="flex flex-1 relative group cursor-pointer"
+        className="flex flex-1 relative shadow-3xl group cursor-pointer"
       >
         <img
           src={Men}

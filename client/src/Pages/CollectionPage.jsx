@@ -31,7 +31,9 @@ const CollectionPage = () => {
     document.addEventListener("mousedown", handleClickOutside);
 
     //clean event listener
-    document.removeEventListener("mousedown", handleClickOutside);
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
   }, []);
 
   useEffect(() => {
@@ -131,12 +133,12 @@ const CollectionPage = () => {
   }, []);
 
   return (
-    <div className="flex flex-col items-center lg:flex-row">
+    <div className="flex flex-col  lg:flex-row">
       <button
         onClick={toggleSidebar}
         className={` ${
           isSidebarOpen ? "bg-stroke" : ""
-        } lg:hidden w-fit border border-stroke p-3 flex justify-center rounded-lg items-center my-4 group hover:bg-stroke`}
+        } lg:hidden min-w-[200px]  border border-stroke ml-auto p-3 flex justify-center rounded-lg items-center my-4 group hover:bg-stroke`}
       >
         <FaFilter className={` ${isSidebarOpen ? "text-primary" : ""} `} />
       </button>
@@ -145,13 +147,13 @@ const CollectionPage = () => {
       <div
         className={`${
           isSidebarOpen ? "translate-x-0" : "-translate-x-full"
-        } fixed top-0 left-0 h-screen grow max-w-54 z-50 bg-stroke overflow-y-auto transition-transform duration-300 lg:static lg:translate-x-0`}
+        } fixed top-0 left-0 h-screen grow max-w-64 z-50 bg-stroke overflow-y-auto transition-transform duration-300 lg:static lg:translate-x-0`}
         ref={sidebarRef}
       >
         <div
-          className={` bg-stone-400 p-2 rounded-full fixed top-5 right-5 lg:hidden `}
+          className={` bg-stone-200 p-2 rounded-full cursor-pointer fixed top-5 right-5 lg:hidden `}
         >
-          <FaMinus className="" />
+          <FaMinus onClick={handleClickOutside} />
         </div>
 
         <FilterSidebar />
