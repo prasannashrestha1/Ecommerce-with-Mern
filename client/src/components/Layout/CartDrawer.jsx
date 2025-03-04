@@ -1,8 +1,14 @@
 import React from "react";
 import { IoMdClose } from "react-icons/io";
 import CartContent from "../Cart/CartContent";
+import { useNavigate } from "react-router-dom";
 
 const CartDrawer = ({ cartOpen, handleCartToggle }) => {
+  const navigate = useNavigate();
+  const handleCheckout = () => {
+    handleCartToggle();
+    navigate("/checkout");
+  };
   return (
     <div
       className={` cart-container w-screen sm:w-[440px] ${
@@ -21,7 +27,9 @@ const CartDrawer = ({ cartOpen, handleCartToggle }) => {
 
       {/* footer area -checkbout button */}
       <div className="sticky   flex flex-col space-y-4 bottom-7 px-4 pt-2">
-        <button className="checkout-btn">Checkout</button>
+        <button onClick={handleCheckout} className="checkout-btn">
+          Checkout
+        </button>
         <p className="text-xs text-tsecondary tracking-tighter">
           shipping, taxes, and discount codes calculated at checkout
         </p>
