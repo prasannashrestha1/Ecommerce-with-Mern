@@ -12,6 +12,9 @@ import Checkout from "./Pages/Checkout";
 import OrderConfirmation from "./Pages/OrderConfirmation";
 import OrderDetailsPage from "./Pages/OrderDetailsPage";
 import MyOrders from "./Pages/MyOrders";
+import AdminLayout from "./components/Admin/AdminLayout";
+import AdminHomePage from "./Pages/AdminHomePage";
+import UserManagement from "./components/Admin/UserManagement";
 
 const App = () => {
   return (
@@ -30,6 +33,10 @@ const App = () => {
           <Route path="order-confirmation" element={<OrderConfirmation />} />
           <Route path="order/:id" element={<OrderDetailsPage />} />
           <Route path="my-orders" element={<MyOrders />} />
+        </Route>
+        <Route path="/admin" element={<AdminLayout />}>
+          <Route index element={<AdminHomePage />} />
+          <Route path="users" element={<UserManagement />} />
         </Route>
       </Routes>
       <Toaster
