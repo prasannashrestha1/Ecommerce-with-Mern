@@ -26,15 +26,15 @@ const CollectionPage = () => {
     }
   };
 
-  useEffect(() => {
-    // Event listner for clicks
-    document.addEventListener("mousedown", handleClickOutside);
+  // useEffect(() => {
+  //   // Event listner for clicks
+  //   document.addEventListener("mousedown", handleClickOutside);
 
-    //clean event listener
-    return () => {
-      document.removeEventListener("mousedown", handleClickOutside);
-    };
-  }, []);
+  //   //clean event listener
+  //   return () => {
+  //     document.removeEventListener("mousedown", handleClickOutside);
+  //   };
+  // }, []);
 
   useEffect(() => {
     setTimeout(() => {

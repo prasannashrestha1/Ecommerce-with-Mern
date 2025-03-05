@@ -1,7 +1,9 @@
 import React, { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 const MyOrders = () => {
   const [allOrders, setAllOrders] = useState([]);
+  const navigate = useNavigate();
 
   useEffect(() => {
     setTimeout(() => {
@@ -62,7 +64,7 @@ const MyOrders = () => {
     }, 1000);
   }, []);
   return (
-    <div className="max-w-7xl overflow-x-auto rounded-lg">
+    <div className="max-w-7xl overflow-x-auto rounded-lg mx-auto my-8 shadow-md">
       <table className=" min-w-5xl lg:min-w-full ">
         <thead className="bg-gray-100 text-xs uppercase">
           <tr>
@@ -79,6 +81,7 @@ const MyOrders = () => {
           {allOrders.length > 0 ? (
             allOrders.map((orders, index) => (
               <tr
+                onClick={() => navigate(`/order/${orders._id}`)}
                 key={orders._id}
                 className={`text-center hover:bg-stroke ${
                   index % 2 === 0 ? "bg-stroke/20" : "bg-stroke"
