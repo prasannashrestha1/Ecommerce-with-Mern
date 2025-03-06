@@ -146,7 +146,9 @@ const AdminHomePage = () => {
                 orders.map((order, index) => (
                   <tr
                     key={index}
-                    className={`${index % 2 !== 0 && "bg-gray-100/50"}`}
+                    className={`${
+                      index % 2 !== 0 ? "bg-gray-100/50" : "bg-primary/5"
+                    } `}
                   >
                     <th className="py-3 px-4">{index + 1}</th>
                     <th className="py-3 px-4">{order.user.name}</th>

@@ -37,7 +37,7 @@ const AdminLayout = () => {
         <AdminSidebar />
       </div>
       {/* Main Content */}
-      <div className="grow p-6 bg-red-200 overflow-auto">
+      <div className="grow p-6 bg-slate-100/50 overflow-auto">
         <Outlet />
       </div>
     </div>
