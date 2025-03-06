@@ -20,17 +20,13 @@ const AdminLayout = () => {
         {isSideBarOpen && (
           <div
             onClick={toggleSidebar}
-            className="w-full h-full fixed bg-black/50 md:hidden "
+            className="w-full h-full fixed top-0 bg-black/50 md:hidden "
           ></div>
         )}
         {/* Sidebar */}
       </div>
       <div
-        className={`${
-          isSideBarOpen
-            ? " translate-x-0"
-            : "-translate-x-full md:translate-x-0"
-        }
+        className={`${isSideBarOpen ? " translate-x-0" : "-translate-x-full "}
         min-h-screen p-6 w-64  top-0 left-0 fixed md:relative z-50 md:block bg-gray-900  transform transition-transform ease-in-out duration-500
         `}
       >
