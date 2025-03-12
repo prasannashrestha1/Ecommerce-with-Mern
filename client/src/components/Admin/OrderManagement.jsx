@@ -16,7 +16,9 @@ const OrderManagement = () => {
     console.log({ id, status });
   };
 
-  const handleDelivered = (id) => {};
+  const handleDelivered = (id) => {
+    console.log({ id });
+  };
   return (
     <div className="max-w-7xl mx-auto p-6">
       <h2 className="text-2xl font-bold mb-6 ">Order Management</h2>
@@ -59,7 +61,7 @@ const OrderManagement = () => {
                   </td>
                   <td>
                     <button
-                      onClick={() => handleDelivered(user._id)}
+                      onClick={() => handleDelivered(order._id)}
                       className="px-4 bg-red-500 rounded-xl  py-1 text-white cursor-pointer"
                     >
                       Mark Delivered
