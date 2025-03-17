@@ -109,6 +109,6 @@ const productSchema = new mongoose.Schema(
   { timestamps: true }
 );
 
-const productModals = mongoose.model("Product", productSchema);
+const productModal = mongoose.model("Product", productSchema);
 
-export default productModals;
+export default productModal;
