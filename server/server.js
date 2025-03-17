@@ -3,6 +3,7 @@ import cors from "cors";
 import dotenv from "dotenv";
 import connectDB from "./config/db.js";
 import userRouter from "./routes/UserRoute.js";
+import productRouter from "./routes/productRoute.js";
 
 const app = express();
 app.use(express.json());
@@ -21,3 +22,4 @@ connectDB().then(
 
 // api routes
 app.use("/api/user", userRouter);
+app.use("/api/product", productRouter);

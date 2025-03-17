@@ -1,0 +1,28 @@
+import jwt from "jsonwebtoken";
+import userModal from "../models/UserModal.js";
+
+const authUser = async (req, res, next) => {
+  try {
+    const token = req.headers.token;
+    if (!token) {
+      return res.status(401).json({
+        success: false,
+        message: "Token expired! please login again to continue",
+      });
+    }
+    const verifyToken = jwt.verify(token, process.env.JWT_SECRET);
+
+    req.user = await userModal
+      .findById(verifyToken.user.id)
+      .select("-password");
+    next();
+  } catch (error) {
+    console.log(error.message);
+    res.status(500).json({
+      success: false,
+      message: "Not authorized",
+    });
+  }
+};
+
+export default authUser;

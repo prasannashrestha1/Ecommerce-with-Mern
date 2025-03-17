@@ -76,6 +76,8 @@ export const login = async (req, res) => {
         message: "Incorrect Credentials",
       });
     }
+    const user = validUser;
+
     const payload = { user: { id: user._id, role: user.role } };
     const token = jwt.sign(payload, process.env.JWT_SECRET, {
       expiresIn: "40h",
@@ -98,4 +100,8 @@ export const login = async (req, res) => {
       message: error.message,
     });
   }
+};
+
+export const getProfile = async (req, res) => {
+  res.status(400).send(req.user);
 };
