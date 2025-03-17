@@ -28,7 +28,7 @@ export const createProduct = async (req, res, next) => {
         message: "Please fill in all the product details",
       });
     }
-    const newProduct = new productModal({
+    const product = new productModal({
       name,
       price,
       description,
@@ -47,11 +47,13 @@ export const createProduct = async (req, res, next) => {
       countInStock,
       sizes,
       colors,
+      user: req.user._id,
     });
-    await newProduct.save();
+    const createdProduct = await product.save();
     return res.status(201).json({
       success: true,
       message: "Product created successfully",
+      createdProduct,
     });
   } catch (error) {
     return res.status(500).json({
