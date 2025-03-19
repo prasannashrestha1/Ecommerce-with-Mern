@@ -1,5 +1,5 @@
 import express from "express";
-import authUser from "../middleware/authMiddleware.js";
+import { authUser, admin } from "../middleware/authMiddleware.js";
 import {
   createProduct,
   editProduct,
@@ -7,7 +7,7 @@ import {
 
 const productRouter = express.Router();
 
-productRouter.post("/create-product", authUser, createProduct);
-productRouter.post("/edit-product", authUser, editProduct);
+productRouter.post("/", authUser, admin, createProduct);
+productRouter.put("/:id", authUser, admin, editProduct);
 
 export default productRouter;

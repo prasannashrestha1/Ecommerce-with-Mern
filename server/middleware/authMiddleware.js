@@ -1,7 +1,7 @@
 import jwt from "jsonwebtoken";
 import userModal from "../models/UserModal.js";
 
-const authUser = async (req, res, next) => {
+export const authUser = async (req, res, next) => {
   try {
     const token = req.headers.token;
     if (!token) {
@@ -25,4 +25,22 @@ const authUser = async (req, res, next) => {
   }
 };
 
-export default authUser;
+// middleware to check if the uer is an admin
+export const admin = (req, res, next) => {
+  try {
+    if (req.user && req.user.role === "customer") {
+      next();
+    } else {
+      return res.status(403).json({
+        success: false,
+        message: "Unauthorized as an admin",
+      });
+    }
+  } catch (error) {
+    console.log(error.message);
+    res.status(500).json({
+      success: false,
+      message: "Not authorized",
+    });
+  }
+};

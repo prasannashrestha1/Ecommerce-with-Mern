@@ -20,6 +20,7 @@ export const createProduct = async (req, res, next) => {
     countInStock,
     sizes,
     colors,
+    brand,
   } = req.body;
   try {
     if (!name || !price || !description || !sku || !sizes || !colors) {
@@ -46,6 +47,7 @@ export const createProduct = async (req, res, next) => {
       weight,
       countInStock,
       sizes,
+      brand,
       colors,
       user: req.user._id,
     });
@@ -58,7 +60,7 @@ export const createProduct = async (req, res, next) => {
   } catch (error) {
     return res.status(500).json({
       success: false,
-      message: "Internal Server Error",
+      message: error.message,
     });
   }
 };
@@ -82,6 +84,7 @@ export const editProduct = async (req, res) => {
     countInStock,
     sizes,
     colors,
+    brand,
   } = req.body;
   try {
     if (!name || !price || !description || !sku || !sizes || !colors) {
@@ -90,31 +93,50 @@ export const editProduct = async (req, res) => {
         message: "Please fill in all the product details",
       });
     }
-    const newProduct = new productModal({
-      name,
-      price,
-      description,
-      discountPrice,
-      category,
-      sku,
-      collections,
-      material,
-      gender,
-      images,
-      isFeatured,
-      isPublished,
-      tags,
-      dimensions,
-      weight,
-      countInStock,
-      sizes,
-      colors,
-    });
-    await newProduct.save();
-    return res.status(201).json({
-      success: true,
-      message: "Product edited successfully",
-    });
+    const product = await productModal.findById(req.params.id);
+
+    if (product && req.user._id === product.user) {
+      // product.name = name || product.name;
+      // product.price = price || product.price;
+      // product.description = description || product.description;
+      // product.discountPrice = discountPrice || product.discountPrice;
+      // product.countInStock = countInStock || product.countInStock;
+      // product.category = category || product.category;
+      // product.brand = brand || product.brand;
+      // product.name = name || product.name;
+      // product.name = name || product.name;
+
+      await productModal.findByIdAndUpdate(req.params.id, {
+        name,
+        price,
+        description,
+        discountPrice,
+        category,
+        sku,
+        collections,
+        material,
+        gender,
+        images,
+        isFeatured,
+        isPublished,
+        tags,
+        dimensions,
+        weight,
+        countInStock,
+        sizes,
+        colors,
+        brand,
+      });
+      return res.status(201).json({
+        success: true,
+        message: "Product edited successfully",
+      });
+    } else {
+      return res.status(401).json({
+        success: false,
+        message: "Unauthorized",
+      });
+    }
   } catch (error) {
     return res.status(500).json({
       success: false,
