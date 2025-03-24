@@ -102,7 +102,7 @@ const productSchema = new mongoose.Schema(
     metaKeywords: {
       type: String,
     },
-    dimension: {
+    dimensions: {
       type: Object,
     },
   },
