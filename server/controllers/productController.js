@@ -95,13 +95,12 @@ export const editProduct = async (req, res) => {
     }
     const product = await productModal.findById(req.params.id);
 
-    if (product && req.user._id === product.user) {
+    if (product && req.user._id.toString() === product.user.toString()) {
       product.name = name || product.name;
       product.price = price || product.price;
       product.description = description || product.description;
       product.discountPrice = discountPrice || product.discountPrice;
-      product.category = product.category;
-      product.sku = sku || product.sku;
+      product.category = category || product.category;
       product.collections = collections || product.collections;
       product.material = material || product.material;
       product.gender = gender || product.gender;
@@ -117,12 +116,13 @@ export const editProduct = async (req, res) => {
       product.sizes = sizes || product.sizes;
       product.colors = colors || product.colors;
       product.brand = brand || product.brand;
+      product.user = req.user._id;
 
       const updatedProduct = await product.save();
       return res.status(201).json({
         success: true,
         message: "Product edited successfully",
-        product,
+        updatedProduct,
       });
     } else {
       return res.status(401).json({
@@ -133,7 +133,7 @@ export const editProduct = async (req, res) => {
   } catch (error) {
     return res.status(500).json({
       success: false,
-      message: "Internal Server Error",
+      message: error.message,
     });
   }
 };
@@ -144,7 +144,6 @@ export const deleteProduct = async (req, res) => {
     return res.status(201).json({
       success: true,
       message: "Product deleted successfully",
-      product,
     });
   } catch (error) {
     return res.status(500).json({
@@ -251,7 +250,7 @@ export const getSimilarProduct = async (req, res) => {
       const similarProduct = await productModal
         .find({
           // exclue the current product id
-          _id: { $ne: id },
+          _id: { $ne: product.id },
           gender: product.gender,
           category: product.category,
         })
@@ -270,7 +269,7 @@ export const getSimilarProduct = async (req, res) => {
   } catch (error) {
     res.status(500).json({
       success: false,
-      message: "Internal server error",
+      message: error.message,
     });
   }
 };

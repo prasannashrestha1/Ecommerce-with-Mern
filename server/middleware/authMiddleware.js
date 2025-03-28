@@ -20,7 +20,7 @@ export const authUser = async (req, res, next) => {
     console.log(error.message);
     res.status(500).json({
       success: false,
-      message: "Not authorized",
+      message: error.message,
     });
   }
 };

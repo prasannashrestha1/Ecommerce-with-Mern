@@ -90,7 +90,7 @@ const productSchema = new mongoose.Schema(
     },
     user: {
       type: mongoose.Schema.Types.ObjectId,
-      ref: "userModal",
+      ref: "User",
       default: 0,
     },
     metaTitle: {
