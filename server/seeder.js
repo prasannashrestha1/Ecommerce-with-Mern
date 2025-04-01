@@ -3,6 +3,7 @@ import { dotenv } from "dotenv";
 import productModal from "./models/ProductModal.js";
 import userModal from "./models/UserModal.js";
 import products from "./Data/products.js";
+import cartModal from "./models/CartModal.js";
 
 dotenv.config();
 
@@ -13,6 +14,7 @@ const seedData = async () => {
     // clear existing data
     await productModal.deleteMany();
     await userModal.deleteMany();
+    await cartModal.deleteMany();
 
     // create a default admin user
     const createdUser = await userModal.create({
@@ -21,7 +23,6 @@ const seedData = async () => {
       email: "admin@admin.com",
       role: "admin",
     });
-    s;
     // assign default admin to the product
     const userId = createdUser._id;
     const sampleProducts = products.map((products) => {

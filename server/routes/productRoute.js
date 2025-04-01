@@ -24,7 +24,7 @@ productRouter.get("/getProduct/:id", getProduct);
 productRouter.get("/getSimilarProduct/:id", getSimilarProduct);
 
 productRouter.get("/best-seller/:id", getBestSellerProduct);
-productRouter.get("/best-seller/:id", getNewArrivals);
+productRouter.get("/new-arrivals", getNewArrivals);
 productRouter.get("/filteredProduct", getFilteredProducts);
 
 export default productRouter;
