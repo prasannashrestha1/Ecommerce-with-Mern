@@ -5,6 +5,7 @@ import connectDB from "./config/db.js";
 import userRouter from "./routes/UserRoute.js";
 import productRouter from "./routes/productRoute.js";
 import cartRouter from "./routes/cartRoute.js";
+import checkoutRouter from "./routes/checkoutRoute.js";
 
 const app = express();
 app.use(express.json());
@@ -25,3 +26,4 @@ connectDB().then(
 app.use("/api/user", userRouter);
 app.use("/api/product", productRouter);
 app.use("/api/cart", cartRouter);
+app.use("/api/checkout", checkoutRouter);

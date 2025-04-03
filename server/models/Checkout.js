@@ -2,7 +2,7 @@ import mongoose, { mongo } from "mongoose";
 const checkoutItemSchema = new mongoose.Schema(
   {
     productId: {
-      type: mongoose.Schema.type.ObjectId,
+      type: mongoose.Schema.Types.ObjectId,
       ref: "Product",
       required: true,
     },
