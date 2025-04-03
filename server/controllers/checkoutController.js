@@ -71,3 +71,55 @@ export const updateSuccessfulCheckout = async (req, res) => {
     });
   }
 };
+
+// finalize checkout and convert to an order after payment confirmation
+export const convertOrder = async (req, res) => {
+  try {
+    const checkout = await checkoutModal.findById(req.params.id);
+    if (!checkout) {
+      return res.status(404).json({
+        success: false,
+        message: "Checkout not found",
+      });
+    }
+    if (!checkout.isPaid && !checkout.isFinalized) {
+      const finalOrder = await orderModel.create({
+        user: checkout.user,
+        orderItems: checkout.orderItems,
+        shippingAddress: checkout.shippingAddress,
+        paymentMethod: checkout.paymentMethod,
+        totalPrice: checkout.totalPrice,
+        isPaid: true,
+        paidAt: checkout.paidAt,
+        isDelivered: false,
+        paymentStatus: "paid",
+        paymentDetails: checkout.paymentDetails,
+      });
+
+      // mark the checkout as finalized
+      checkout.isFinalized = true;
+      checkout.finalizedAt = Date.now();
+      await checkout.save();
+      // Delete the cart asswociated with the user.
+      await cartModal.findOneAndDelete({ user: checkout.user });
+      res.status(201).json({
+        success: true,
+        message: "checkout updated",
+        finalOrder,
+      });
+    } else if (checkout.isFinalized) {
+      res
+        .status(400)
+        .json({ success: false, message: "checkout already finalized" });
+    } else {
+      res.status(400).json({
+        success: false,
+        message: "checkout not paid",
+      });
+    }
+    return res.status(400).json({
+      success: false,
+      message: "Order has not been paid",
+    });
+  } catch (error) {}
+};

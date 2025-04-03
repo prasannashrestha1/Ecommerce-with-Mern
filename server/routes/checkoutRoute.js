@@ -8,6 +8,7 @@ import { authUser } from "../middleware/authMiddleware.js";
 const checkoutRouter = express.Router();
 
 checkoutRouter.post("/", authUser, createCheckout);
-checkoutRouter.post("/:id/pay", authUser, updateSuccessfulCheckout);
+checkoutRouter.put("/:id/pay", authUser, updateSuccessfulCheckout);
+checkoutRouter.post("/:id/finalize", authUser, updateSuccessfulCheckout);
 
 export default checkoutRouter;
