@@ -7,6 +7,8 @@ import productRouter from "./routes/productRoute.js";
 import cartRouter from "./routes/cartRoute.js";
 import checkoutRouter from "./routes/checkoutRoute.js";
 import orderRouter from "./routes/orderRoute.js";
+import uploadRoutes from "./routes/uploadRoute.js";
+import subscriberRoutes from "./routes/subscriberRoute.js";
 
 const app = express();
 app.use(express.json());
@@ -29,3 +31,5 @@ app.use("/api/product", productRouter);
 app.use("/api/cart", cartRouter);
 app.use("/api/checkout", checkoutRouter);
 app.use("/api/orders", orderRouter);
+app.use("/api/upload", uploadRoutes);
+app.use("/api/subscribe", subscriberRoutes);
