@@ -9,6 +9,8 @@ import checkoutRouter from "./routes/checkoutRoute.js";
 import orderRouter from "./routes/orderRoute.js";
 import uploadRoutes from "./routes/uploadRoute.js";
 import subscriberRoutes from "./routes/subscriberRoute.js";
+import adminRouter from "./routes/adminRoute.js";
+import productAdminRouter from "./routes/productAdminRoute.js";
 
 const app = express();
 app.use(express.json());
@@ -33,3 +35,5 @@ app.use("/api/checkout", checkoutRouter);
 app.use("/api/orders", orderRouter);
 app.use("/api/upload", uploadRoutes);
 app.use("/api/subscribe", subscriberRoutes);
+app.use("/api/admin/users", adminRouter);
+app.use("/api/admin/products", productAdminRouter);
