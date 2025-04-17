@@ -11,6 +11,7 @@ import uploadRoutes from "./routes/uploadRoute.js";
 import subscriberRoutes from "./routes/subscriberRoute.js";
 import adminRouter from "./routes/adminRoute.js";
 import productAdminRouter from "./routes/productAdminRoute.js";
+import adminOrderRouter from "./routes/adminOrderRoute.js";
 
 const app = express();
 app.use(express.json());
@@ -35,5 +36,8 @@ app.use("/api/checkout", checkoutRouter);
 app.use("/api/orders", orderRouter);
 app.use("/api/upload", uploadRoutes);
 app.use("/api/subscribe", subscriberRoutes);
+
+// Admin
 app.use("/api/admin/users", adminRouter);
 app.use("/api/admin/products", productAdminRouter);
+app.use("/api/admin/orders", adminOrderRouter);
