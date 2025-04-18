@@ -21,11 +21,11 @@ const initialState = {
 
 // Async thunk for user login
 export const loginUser = createAsyncThunk(
-  "/auth/loginUser",
+  "auth/loginUser",
   async (userData, { rejectWithValue }) => {
     try {
       const response = await axios.post(
-        `${import.meta.env.BACKEND_URL}/api/user/login`,
+        `${import.meta.env.VITE_BACKEND_URL}/api/user/login`,
         userData
       );
       localStorage.setItem("userInfo", JSON.stringify(response.data.user));
@@ -39,11 +39,11 @@ export const loginUser = createAsyncThunk(
 
 // Async thunk for user login
 export const registerUser = createAsyncThunk(
-  "/auth/signup",
+  "auth/signup",
   async (userData, { rejectWithValue }) => {
     try {
       const response = await axios.post(
-        `${import.meta.env.BACKEND_URL}/api/user/login`,
+        `${import.meta.env.VITE_BACKEND_URL}/api/user/signup`,
         userData
       );
       localStorage.setItem("userInfo", JSON.stringify(response.data.user));
@@ -72,4 +72,34 @@ const authSlice = createSlice({
       localStorage.setItem("guestId", state.guestId);
     },
   },
+  extraReducers: (builder) => {
+    builder
+      .addCase(loginUser.pending, (state) => {
+        state.loading = true;
+        state.error = null;
+      })
+      .addCase(loginUser.fulfilled, (state, action) => {
+        state.loading = false;
+        state.user = action.payload;
+      })
+      .addCase(loginUser.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.payload.message;
+      })
+      .addCase(registerUser.pending, (state) => {
+        state.loading = true;
+        state.error = null;
+      })
+      .addCase(registerUser.fulfilled, (state, action) => {
+        state.loading = false;
+        state.error = action.payload;
+      })
+      .addCase(registerUser.rejected, (state, action) => {
+        state.loading = false;
+        state.user = action.payload.message;
+      });
+  },
 });
+
+export const { logout, generateNewGuestId } = authSlice.actions;
+export default authSlice.reducer;
