@@ -1,5 +1,6 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import axios from "axios";
+import { toast } from "sonner";
 
 // retrieve user info and token from localstorage
 const userFromStorage = localStorage.getItem("userInfo")
@@ -48,6 +49,8 @@ export const registerUser = createAsyncThunk(
       );
       localStorage.setItem("userInfo", JSON.stringify(response.data.user));
       localStorage.setItem("userToken", JSON.stringify(response.data.token));
+      toast(response.data.message);
+
       return response.data.user; // return user object from the response
     } catch (error) {
       return rejectWithValue(error.response.data);
@@ -84,7 +87,7 @@ const authSlice = createSlice({
       })
       .addCase(loginUser.rejected, (state, action) => {
         state.loading = false;
-        state.error = action.payload.message;
+        state.error = action.error.message;
       })
       .addCase(registerUser.pending, (state) => {
         state.loading = true;
@@ -96,7 +99,7 @@ const authSlice = createSlice({
       })
       .addCase(registerUser.rejected, (state, action) => {
         state.loading = false;
-        state.user = action.payload.message;
+        state.user = action.error.message;
       });
   },
 });
