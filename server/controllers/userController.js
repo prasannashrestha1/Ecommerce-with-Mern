@@ -103,5 +103,5 @@ export const login = async (req, res) => {
 };
 
 export const getProfile = async (req, res) => {
-  res.status(400).send(req.user);
+  res.status(200).send(req.user);
 };

@@ -189,9 +189,6 @@ export const getFilteredProducts = async (req, res) => {
     if (brand) {
       query.brand = { $in: brand.split(",") };
     }
-    if (size) {
-      query.size = { $in: size.split(",") };
-    }
     if (minPrice || maxPrice) {
       query.price = {};
       if (minPrice) {
@@ -211,6 +208,13 @@ export const getFilteredProducts = async (req, res) => {
 
     // fetch products and apply sorting
     const filteredProduct = await productModal.find(query);
+    const totalFilteredProduct = filteredProduct.length;
+    return res.status(200).json({
+      success: true,
+      message: "Fetched filtered products successfully",
+      totalFilteredProduct,
+      filteredProduct,
+    });
   } catch (error) {
     return res.status(500).json({
       success: false,
@@ -276,7 +280,7 @@ export const getSimilarProduct = async (req, res) => {
 
 export const getBestSellerProduct = async (req, res) => {
   try {
-    const bestSeller = await productModal.findOne().sort({ rating: -1 });
+    const bestSeller = await productModal.findOne({}).sort({ rating: -1 });
     if (bestSeller) {
       res.status(200).json({
         success: true,

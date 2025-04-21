@@ -1,8 +1,13 @@
 import React from "react";
 import { Link } from "react-router-dom";
 
-const ProductGrid = ({ products }) => {
-  const handleProduct = () => {};
+const ProductGrid = ({ products, loading, error }) => {
+  if (loading) {
+    return <p>Loading</p>;
+  }
+  if (error) {
+    return <p>{error} There is an error in Product Grid</p>;
+  }
   return (
     <div className="mx-auto grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4 lg:gap-6 max-w-[1400px]">
       {products.map((product, index) => (

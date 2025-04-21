@@ -32,7 +32,6 @@ const App = () => {
             <Route path="login" element={<Login />} />
             <Route path="register" element={<Register />} />
             <Route path="profile" element={<Profile />} />
-            <Route path="profile" element={<Profile />} />
             <Route
               path="collections/:collection"
               element={<CollectionPage />}

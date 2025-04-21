@@ -1,19 +1,24 @@
 import React, { useEffect, useRef, useState } from "react";
 import FilterSidebar from "../components/Products/FilterSidebar";
-import {
-  FaClosedCaptioning,
-  FaCross,
-  FaFilter,
-  FaMinus,
-  FaRemoveFormat,
-} from "react-icons/fa";
+import { FaClosedCaptioning, FaCross, FaFilter, FaMinus } from "react-icons/fa";
 import SortOptions from "../components/Products/SortOptions";
 import ProductGrid from "./../components/Products/ProductGrid";
+import { useParams, useSearchParams } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import { fetchProductsByFilters } from "../redux/slices/productSlice";
 
 const CollectionPage = () => {
-  const [products, setProducts] = useState([]);
+  const { collection } = useParams();
+  const [searchParams] = useSearchParams();
+  const dispatch = useDispatch();
+  const { products, loading, error } = useSelector((state) => state.products);
+  const queryParams = Object.fromEntries([...searchParams]);
   const sidebarRef = useRef(null);
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
+
+  useEffect(() => {
+    dispatch(fetchProductsByFilters({ collection, ...queryParams }));
+  }, [dispatch, collection, searchParams]);
 
   const toggleSidebar = () => {
     setIsSidebarOpen(!isSidebarOpen);
@@ -35,102 +40,6 @@ const CollectionPage = () => {
   //     document.removeEventListener("mousedown", handleClickOutside);
   //   };
   // }, []);
-
-  useEffect(() => {
-    setTimeout(() => {
-      const fetchedProducts = [
-        {
-          _id: 1,
-          name: "Product 1",
-          price: 100,
-          images: [
-            {
-              url: "https://randomwordgenerator.com/img/picture-generator/55e4d44a4854ad14f1dc8460962e33791c3ad6e04e507440762a7cd59f4bc1_640.jpg",
-              altText: "Brand",
-            },
-          ],
-        },
-        {
-          _id: 2,
-          name: "Product @",
-          price: 300,
-          images: [
-            {
-              url: "https://randomwordgenerator.com/img/picture-generator/55e4d44a4854ad14f1dc8460962e33791c3ad6e04e507440762a7cd59f4bc1_640.jpg",
-              altText: "Brands",
-            },
-          ],
-        },
-        {
-          _id: 3,
-          name: "Details",
-          price: 100,
-          images: [
-            {
-              url: "https://randomwordgenerator.com/img/picture-generator/55e4d44a4854ad14f1dc8460962e33791c3ad6e04e507440762a7cd59f4bc1_640.jpg",
-              altText: "Brand",
-            },
-          ],
-        },
-        {
-          _id: 4,
-          name: "Far Better Product",
-          price: 100,
-          images: [
-            {
-              url: "https://randomwordgenerator.com/img/picture-generator/55e4d44a4854ad14f1dc8460962e33791c3ad6e04e507440762a7cd59f4bc1_640.jpg",
-              altText: "Brand",
-            },
-          ],
-        },
-        {
-          _id: 5,
-          name: "Product 1",
-          price: 100,
-          images: [
-            {
-              url: "https://randomwordgenerator.com/img/picture-generator/55e4d44a4854ad14f1dc8460962e33791c3ad6e04e507440762a7cd59f4bc1_640.jpg",
-              altText: "Brand",
-            },
-          ],
-        },
-        {
-          _id: 6,
-          name: "Product @",
-          price: 300,
-          images: [
-            {
-              url: "https://randomwordgenerator.com/img/picture-generator/55e4d44a4854ad14f1dc8460962e33791c3ad6e04e507440762a7cd59f4bc1_640.jpg",
-              altText: "Brands",
-            },
-          ],
-        },
-        {
-          _id: 7,
-          name: "Details",
-          price: 100,
-          images: [
-            {
-              url: "https://randomwordgenerator.com/img/picture-generator/55e4d44a4854ad14f1dc8460962e33791c3ad6e04e507440762a7cd59f4bc1_640.jpg",
-              altText: "Brand",
-            },
-          ],
-        },
-        {
-          _id: 8,
-          name: "Far Better Product",
-          price: 100,
-          images: [
-            {
-              url: "https://randomwordgenerator.com/img/picture-generator/55e4d44a4854ad14f1dc8460962e33791c3ad6e04e507440762a7cd59f4bc1_640.jpg",
-              altText: "Brand",
-            },
-          ],
-        },
-      ];
-      setProducts(fetchedProducts);
-    }, 1000);
-  }, []);
 
   return (
     <div className="flex flex-col  lg:flex-row">
@@ -163,7 +72,7 @@ const CollectionPage = () => {
         <SortOptions />
 
         {/* Product Grid */}
-        <ProductGrid products={products} />
+        <ProductGrid products={products} loading={loading} error={error} />
       </div>
     </div>
   );

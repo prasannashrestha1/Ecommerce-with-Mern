@@ -1,5 +1,5 @@
 import mongoose from "mongoose";
-import { dotenv } from "dotenv";
+import dotenv from "dotenv";
 import productModal from "./models/ProductModal.js";
 import userModal from "./models/UserModal.js";
 import products from "./Data/products.js";
@@ -16,10 +16,11 @@ const seedData = async () => {
     await userModal.deleteMany();
     await cartModal.deleteMany();
 
+    const hashedPassword = await bcrypt.hash("Admin123", 10);
     // create a default admin user
     const createdUser = await userModal.create({
       name: "Admin",
-      password: "Admin123",
+      password: hashedPassword,
       email: "admin@admin.com",
       role: "admin",
     });

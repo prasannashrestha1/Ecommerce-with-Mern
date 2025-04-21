@@ -1,8 +1,10 @@
-import React, { useRef } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { FaAngleLeft, FaAngleRight } from "react-icons/fa6";
+import axios from "axios";
 
 const NewArrivals = () => {
   const scrollContainer = useRef(null);
+  const [newArrivals, setNewArrivals] = useState([]);
   const ad = [
     {
       _id: "1",
@@ -103,6 +105,21 @@ const NewArrivals = () => {
     scrollContainer.current?.scrollBy({ left: -200, behavior: "smooth" });
   };
 
+  useEffect(() => {
+    const fetchNewArrivals = async () => {
+      try {
+        const response = await axios.get(
+          `${import.meta.env.VITE_BACKEND_URL}/api/product/new-arrivals`
+        );
+        setNewArrivals(response.data.newArrivals);
+        console.log(response.data);
+      } catch (error) {
+        console.log(error.message + "this is working");
+      }
+    };
+    fetchNewArrivals();
+  }, []);
+
   return (
     <section className="px-4 sm:px-6 md:px-10 py-10 md:py-20 items-center flex flex-col  gap-12 text-center ">
       <div className="flex w-[80%] flex-col md:flex-row justify-between gap-4 items-end md:items-center">
@@ -129,22 +146,27 @@ const NewArrivals = () => {
           ref={scrollContainer}
           className="flex gap-4 mx-auto overflow-x-scroll max-w-[1560px] pb-2 md:pb-4"
         >
-          {ad.map((item, index) => (
-            <div
-              key={index}
-              className="h-[200px] sm:h-[250px] md:h-[350px]  rounded-lg min-w-[220px] md:min-w-[300px] flex mb-4 relative"
-            >
-              <img
-                src={item.images[0].url}
-                className="w-full object-cover rounded-lg"
-                alt={item.images.altText}
-              />
-              <div className="absolute bg-black/50 backdrop-blur-[4px] bottom-0 w-full bgblur rounded-b-lg p-4 text-sm text-start text-white">
-                <p className="font-semibold">{item.name}</p>
-                <p>{item.price}</p>
+          {newArrivals &&
+            newArrivals.map((item, index) => (
+              <div
+                key={index}
+                className="h-[200px] sm:h-[250px] md:h-[350px]  rounded-lg min-w-[220px] md:min-w-[300px] flex mb-4 relative"
+              >
+                <img
+                  src={
+                    item.images[0]
+                      ? item.images[0].url
+                      : "https://plus.unsplash.com/premium_photo-1683865776032-07bf70b0add1?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MXx8dXJsfGVufDB8fDB8fHww"
+                  }
+                  className="w-full object-cover rounded-lg"
+                  alt={item.images.altText}
+                />
+                <div className="absolute bg-black/50 backdrop-blur-[4px] bottom-0 w-full bgblur rounded-b-lg p-4 text-sm text-start text-white">
+                  <p className="font-semibold">{item.name}</p>
+                  <p>{item.price}</p>
+                </div>
               </div>
-            </div>
-          ))}
+            ))}
         </div>
       </div>
     </section>

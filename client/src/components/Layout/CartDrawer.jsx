@@ -2,11 +2,18 @@ import React from "react";
 import { IoMdClose } from "react-icons/io";
 import CartContent from "../Cart/CartContent";
 import { useNavigate } from "react-router-dom";
+import { useSelector } from "react-redux";
 
 const CartDrawer = ({ cartOpen, handleCartToggle }) => {
   const navigate = useNavigate();
+  const { user, guestId } = useSelector((state) => state.auth);
+  const { cart } = useSelector((state) => state.auth);
+  const userId = user ? user._id : null;
   const handleCheckout = () => {
     handleCartToggle();
+    if (!user) {
+      navigate("/login?redirect=checkout");
+    }
     navigate("/checkout");
   };
   return (

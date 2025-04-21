@@ -5,7 +5,7 @@ const router = express.Router();
 
 // router post api/subscribe
 // handles newsletter subscription @acess public
-router.post("/subscribe", async (req, res) => {
+router.post("/", async (req, res) => {
   const { email } = req.body;
   if (!email) {
     return res.status(400).json({
@@ -23,7 +23,7 @@ router.post("/subscribe", async (req, res) => {
       });
     }
     // create a new subscriber
-    subscriber = subscriberModel.create({ email });
+    subscriber = await subscriberModel.create({ email });
     return res.status(201).json({
       success: true,
       message: "Email has been subscribed successfully",

@@ -3,9 +3,11 @@ import productModal from "../models/ProductModal.js";
 export const getAllProducts = async (req, res) => {
   try {
     const products = await productModal.find({});
+    const productCount = products.length;
     return res.status(200).json({
       success: true,
       message: "Product Fetched Successfully",
+      productCount,
       products,
     });
   } catch (error) {

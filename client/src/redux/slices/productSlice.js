@@ -60,7 +60,7 @@ export const fetchProductsByFilters = createAsyncThunk(
     if (search) query.append("search", search);
     if (limit) query.append("limit", limit);
     const response = await axios.get(
-      `${import.meta.env.VITE_BACKEND_URL}/api/products/filteredProduct`
+      `${import.meta.env.VITE_BACKEND_URL}/api/product/filteredProduct`
     );
     return response.data;
   }
@@ -146,7 +146,7 @@ const productSlice = createSlice({
       })
       .addCase(fetchProductsByFilters.rejected, (state, action) => {
         state.loading = false;
-        state.error = action.error.message;
+        state.error = action.payload;
       })
       // get similar products
       .addCase(fetchSimilarProduct.pending, (state) => {
@@ -156,7 +156,9 @@ const productSlice = createSlice({
       .addCase(fetchSimilarProduct.fulfilled, (state, action) => {
         state.loading = false;
         state.error = null;
-        state.products = Array.isArray(action.payload) ? action.payload : [];
+        state.similarProducts = Array.isArray(action.payload)
+          ? action.payload
+          : [];
       })
       .addCase(fetchSimilarProduct.rejected, (state, action) => {
         state.loading = false;
@@ -172,9 +174,9 @@ const productSlice = createSlice({
         state.error = null;
         state.selectedProduct = action.payload;
       })
-      .addCase(fetchProductDetails.rejected, (action, payload) => {
+      .addCase(fetchProductDetails.rejected, (state, action) => {
         state.loading = false;
-        state.error = action.error.message;
+        state.error = action.payload;
       })
       // handle updating single product details
       .addCase(updateProduct.pending, (state) => {
@@ -191,7 +193,7 @@ const productSlice = createSlice({
           state.products[index] = updatedProduct;
         }
       })
-      .addCase(updateProduct.rejected, (action, payload) => {
+      .addCase(updateProduct.rejected, (state, action) => {
         state.loading = false;
         state.error = action.error.message;
       });

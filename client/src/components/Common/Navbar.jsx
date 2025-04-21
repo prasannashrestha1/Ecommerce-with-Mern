@@ -26,16 +26,28 @@ const Navbar = () => {
           Ecommerce
         </Link>
         <div className="hidden md:flex gap-4 text-sm items-center ">
-          <NavLink to="/collections/all" className="hover:text-primary">
+          <NavLink
+            to="/collections/all?gender=Men"
+            className="hover:text-primary"
+          >
             Men
           </NavLink>
-          <NavLink to="/" className="hover:text-primary">
+          <NavLink
+            to="/collections/all?gender=Women"
+            className="hover:text-primary"
+          >
             Women
           </NavLink>
-          <NavLink to="/" className="hover:text-primary">
+          <NavLink
+            to="/collections/all?category=Top Wear"
+            className="hover:text-primary"
+          >
             Top Wear
           </NavLink>
-          <NavLink to="/" className="hover:text-primary">
+          <NavLink
+            to="/collections/all?category=Bottom Wear"
+            className="hover:text-primary"
+          >
             Bottom Wear
           </NavLink>
         </div>
@@ -86,28 +98,28 @@ const Navbar = () => {
         </div>
         <div className="flex flex-col gap-4 text-md items-center ">
           <NavLink
-            to="/"
+            to="/collections/all?gender=Men"
             onClick={handleNavDrawerToggle}
             className="hover:text-primary"
           >
             Men
           </NavLink>
           <NavLink
-            to="/"
+            to="/collections/all?gender=Women"
             onClick={handleNavDrawerToggle}
             className="hover:text-primary"
           >
             Women
           </NavLink>
           <NavLink
-            to="/"
+            to="/collections/all?category=Top Wear"
             onClick={handleNavDrawerToggle}
             className="hover:text-primary"
           >
             Top Wear
           </NavLink>
           <NavLink
-            to="/"
+            to="/collections/all?category=Bottom Wear"
             onClick={handleNavDrawerToggle}
             className="hover:text-primary"
           >

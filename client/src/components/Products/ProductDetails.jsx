@@ -1,6 +1,13 @@
 import React, { useState } from "react";
 import { toast } from "sonner";
 import ProductGrid from "./ProductGrid";
+import { useParams } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import {
+  fetchProductDetails,
+  fetchSimilarProduct,
+} from "../../redux/slices/productSlice";
+import { addToCart } from "../../redux/slices/cartSlice";
 
 const selectedProduct = {
   name: "Stylish Jacket",
@@ -68,7 +75,13 @@ const similarProduct = [
     ],
   },
 ];
-const ProductDetails = () => {
+const ProductDetails = ({ productId }) => {
+  const { id } = useParams();
+  const dispatch = useDispatch();
+  const { selectedProduct, loading, error, similarProducts } = useSelector(
+    (state) => state.products
+  );
+  const { user, guestId } = useSelector((state) => state.auth);
   const [selectedSize, setSelectedSize] = useState(
     selectedProduct ? selectedProduct.sizes[0] : ""
   );
@@ -80,6 +93,14 @@ const ProductDetails = () => {
   const [selectedImage, setSelectedImage] = useState(
     selectedProduct.images[0].url
   );
+  const productFetchId = productId || id;
+
+  useEffect(() => {
+    if (productFetchId) {
+      dispatch(fetchProductDetails(productFetchId));
+      dispatch(fetchSimilarProduct({ id: productFetchId }));
+    }
+  }, [dispatch, productFetchId]);
 
   const handleMinusQuantity = () => {
     setQuantity((prev) => (prev <= 1 ? prev : prev - 1));
@@ -95,11 +116,32 @@ const ProductDetails = () => {
     }
     setIsButtonDisabled(true);
 
-    setTimeout(() => {
-      toast.success("Item Added to cart");
-      setIsButtonDisabled(false);
-    }, 3000);
+    dispatch(
+      addToCart({
+        productId: productFetchId,
+        quantity,
+        size: selectedSize,
+        color: selectedColor,
+        guestId,
+        userId: user?._id,
+      })
+        .then(() => {
+          toast.success("Product Added to cart successfully", {
+            duration: 3000,
+          });
+        })
+        .finally(() => {
+          setIsButtonDisabled(false);
+        })
+    );
   };
+
+  if (loading) {
+    return <p>Loading....</p>;
+  }
+  if (error) {
+    return <p>Error while loading the component {error}</p>;
+  }
 
   return (
     <section className="p-6 mx-auto">
@@ -107,23 +149,24 @@ const ProductDetails = () => {
         {/* left content */}
         <div className="flex flex-col w-full md:w-fit md:flex-row gap-4 ">
           <div className="hidden md:flex flex-col gap-3">
-            {selectedProduct.images.slice(0, 4).map((item, index) => (
-              <div
-                key={index}
-                className={`relative ${
-                  selectedImage === item.url
-                    ? "outline-4 outline-primary rounded-md"
-                    : ""
-                }`}
-              >
-                <img
-                  onClick={() => setSelectedImage(item.url)}
-                  className="w-20 h-20 rounded-md object-cover"
-                  src={item.url}
-                  alt={item.altText}
-                />
-              </div>
-            ))}
+            {selectedProduct &&
+              selectedProduct.images.slice(0, 4).map((item, index) => (
+                <div
+                  key={index}
+                  className={`relative ${
+                    selectedImage === item.url
+                      ? "outline-4 outline-primary rounded-md"
+                      : ""
+                  }`}
+                >
+                  <img
+                    onClick={() => setSelectedImage(item.url)}
+                    className="w-20 h-20 rounded-md object-cover"
+                    src={item.url}
+                    alt={item.altText}
+                  />
+                </div>
+              ))}
           </div>
           <img
             className="h-[400px]  md:w-[400px] object-cover rounded-lg"
@@ -253,7 +296,11 @@ const ProductDetails = () => {
         <h2 className="text-2xl  mx-auto text-center font-medium mb-8">
           You may also like
         </h2>
-        <ProductGrid products={similarProduct} />
+        <ProductGrid
+          products={similarProducts}
+          loading={loading}
+          error={error}
+        />
       </div>
     </section>
   );
