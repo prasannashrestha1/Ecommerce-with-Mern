@@ -1,68 +1,26 @@
 import React, { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 
 const MyOrders = () => {
-  const [allOrders, setAllOrders] = useState([]);
   const navigate = useNavigate();
-
+  const dispatch = useDispatch();
+  const { orders, loading, error } = useSelector((state) => state.orders);
   useEffect(() => {
-    setTimeout(() => {
-      const mockOrders = [
-        {
-          _id: "12345",
-          createdAt: new Date(),
-          shippingAddress: {
-            city: "New York",
-            country: "USA",
-          },
-          orderItems: [
-            {
-              name: "Product 1",
-              image:
-                "https://randomwordgenerator.com/img/picture-generator/54e2d242485ba914f1dc8460962e33791c3ad6e04e5074417d2e72d2944cc4_640.jpg",
-            },
-          ],
-          totalPrice: 100,
-          isPaid: true,
-        },
-        {
-          _id: "122345",
-          createdAt: new Date(),
-          shippingAddress: {
-            city: "New York",
-            country: "USA",
-          },
-          orderItems: [
-            {
-              name: "Product 1",
-              image:
-                "https://randomwordgenerator.com/img/picture-generator/54e2d242485ba914f1dc8460962e33791c3ad6e04e5074417d2e72d2944cc4_640.jpg",
-            },
-          ],
-          totalPrice: 100,
-          isPaid: false,
-        },
-        {
-          _id: "1332345",
-          createdAt: new Date(),
-          shippingAddress: {
-            city: "Sitapaila",
-            country: "Nepal",
-          },
-          orderItems: [
-            {
-              name: "Product 1",
-              image:
-                "https://randomwordgenerator.com/img/picture-generator/54e2d242485ba914f1dc8460962e33791c3ad6e04e5074417d2e72d2944cc4_640.jpg",
-            },
-          ],
-          totalPrice: 100,
-          isPaid: true,
-        },
-      ];
-      setAllOrders(mockOrders);
-    }, 1000);
-  }, []);
+    dispatch(fetchAllUserOrders());
+  }, [dispatch]);
+
+  const handleRowClick = (orderId) => {
+    navigate(`/order/${orderId}`);
+  };
+
+  if (loading) {
+    return <p>Loading</p>;
+  }
+  if (error) {
+    return <p>Error: {error}</p>;
+  }
+
   return (
     <div className="max-w-7xl overflow-x-auto rounded-lg mx-auto my-8 shadow-md">
       <table className=" min-w-5xl lg:min-w-full ">
@@ -78,8 +36,8 @@ const MyOrders = () => {
           </tr>
         </thead>
         <tbody className="text-sm">
-          {allOrders.length > 0 ? (
-            allOrders.map((orders, index) => (
+          {orders.length > 0 ? (
+            orders.map((orders, index) => (
               <tr
                 onClick={() => navigate(`/order/${orders._id}`)}
                 key={orders._id}

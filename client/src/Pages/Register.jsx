@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import register from "../assets/register.webp";
 import { useDispatch } from "react-redux";
 import { registerUser } from "../redux/slices/authSlice";
@@ -8,7 +8,28 @@ const Register = () => {
   const [email, setEmail] = useState("");
   const [name, setName] = useState("");
   const [password, setPassword] = useState("");
+
   const dispatch = useDispatch();
+  const navigate = useNavigate();
+  const location = useLocation();
+  const { user, guestId } = useSelector((state) => state.auth);
+  const { cart } = useSelector((state) => state.cart);
+
+  // get redirect parameter and check if its checkout or something
+  const redirect = new URLSearchParams(location.search).get("redirect") || "/";
+  const isCheckoutRedirect = redirect.includes("checkout");
+
+  useEffect(() => {
+    if (user) {
+      if (cart?.products.length > 0 && guestId) {
+        dispatch(mergeCart({ guestId, user })).then(() => {
+          navigate(isCheckoutRedirect ? "/checkout" : "/");
+        });
+      } else {
+        navigate(isCheckoutRedirect ? "checkout" : "/");
+      }
+    }
+  }, [user, guestId, cart, isCheckoutRedirect, dispatch]);
 
   const handleRegister = (e) => {
     e.preventDefault();
@@ -67,7 +88,10 @@ const Register = () => {
           </form>
           <p className="mt-5 text-sm text-center">
             Already have an account?{" "}
-            <Link to="/login" className="text-blue-500 hover:text-blue-600">
+            <Link
+              to={`/login?redirect=${encodeURIComponent(redirect)}`}
+              className="text-blue-500 hover:text-blue-600"
+            >
               Sign in
             </Link>
           </p>

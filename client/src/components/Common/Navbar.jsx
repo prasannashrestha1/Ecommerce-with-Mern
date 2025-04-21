@@ -7,10 +7,12 @@ import { HiBars3BottomRight } from "react-icons/hi2";
 import SearchBar from "./SearchBar";
 import { IoMdClose } from "react-icons/io";
 import CartDrawer from "../Layout/CartDrawer";
+import { useSelector } from "react-redux";
 const Navbar = () => {
   const [search, setSearch] = useState("");
   const [cartOpen, setCartOpen] = useState(false);
   const [navDrawerOpen, setNavDrawerOpen] = useState(false);
+  const { cart } = useSelector((state) => state.cart);
 
   const handleCartToggle = () => {
     setCartOpen(!cartOpen);
@@ -18,6 +20,11 @@ const Navbar = () => {
   const handleNavDrawerToggle = () => {
     setNavDrawerOpen(!navDrawerOpen);
   };
+
+  const cartItemCount = cart?.products?.reduce(
+    (acc, item) => acc + item.quantity,
+    0
+  );
 
   return (
     <div className="w-full bg-primary/5 h-fit text-center text-black relative">
@@ -66,7 +73,7 @@ const Navbar = () => {
             >
               <IoCart className="w-5 h-5" />
               <div className="absolute bg-red-500 px-[4px] py-[2px] left-2.5 top-[12px] rounded-full text-white text-[8px]">
-                4
+                {cartItemCount}
               </div>
             </div>
             <SearchBar />

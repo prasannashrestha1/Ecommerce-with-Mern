@@ -1,59 +1,74 @@
 import React, { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import { Link, useParams } from "react-router-dom";
+import { fetchOrderDetails } from "../redux/slices/orderSlice";
 
 const OrderDetailsPage = () => {
   const { id } = useParams();
-  const [orderDetails, setOrderDetails] = useState(null);
-  useEffect(() => {
-    const mockData = {
-      _id: id,
-      createdAt: new Date(),
-      isPaid: false,
-      isDelivered: false,
-      paymentMethod: "Paypal",
-      shippingMethod: "Standard",
-      shippingAddress: {
-        city: "New York",
-        country: "USA",
-      },
-      orderItems: [
-        {
-          productId: "1",
-          name: "Jacket",
-          price: 120,
-          quantity: 1,
-          image:
-            "https://randomwordgenerator.com/img/picture-generator/55e7dc444b56aa14f1dc8460962e33791c3ad6e04e5074417d2e72d1924cc6_640.jpg",
-        },
-        {
-          productId: "3",
-          name: "event",
-          price: 120,
-          quantity: 1,
-          image:
-            "https://randomwordgenerator.com/img/picture-generator/54e1d24b4d5aaa14f1dc8460962e33791c3ad6e04e5074417d2e7ed69f49cd_640.jpg",
-        },
-        {
-          productId: "22",
-          name: "this is business",
-          price: 120,
-          quantity: 2,
-          image:
-            "https://randomwordgenerator.com/img/picture-generator/55e8d4474c50a514f1dc8460962e33791c3ad6e04e507440762879dc9144c2_640.jpg",
-        },
-        {
-          productId: "1",
-          name: "animal",
-          price: 12,
-          quantity: 1,
-          image:
-            "https://randomwordgenerator.com/img/picture-generator/52e3d7434b51aa14f1dc8460962e33791c3ad6e04e5074417c2f7cd3944dc4_640.jpg",
-        },
-      ],
-    };
+  const dispatch = useDispatch();
+  const { orderDetails, loading, error } = useSelector((state) => state.orders);
 
-    setOrderDetails(mockData);
-  }, [id]);
+  useEffect(() => {
+    dispatch(fetchOrderDetails(id));
+  }, [dispatch, id]);
+
+  // useEffect(() => {
+  //   const mockData = {
+  //     _id: id,
+  //     createdAt: new Date(),
+  //     isPaid: false,
+  //     isDelivered: false,
+  //     paymentMethod: "Paypal",
+  //     shippingMethod: "Standard",
+  //     shippingAddress: {
+  //       city: "New York",
+  //       country: "USA",
+  //     },
+  //     orderItems: [
+  //       {
+  //         productId: "1",
+  //         name: "Jacket",
+  //         price: 120,
+  //         quantity: 1,
+  //         image:
+  //           "https://randomwordgenerator.com/img/picture-generator/55e7dc444b56aa14f1dc8460962e33791c3ad6e04e5074417d2e72d1924cc6_640.jpg",
+  //       },
+  //       {
+  //         productId: "3",
+  //         name: "event",
+  //         price: 120,
+  //         quantity: 1,
+  //         image:
+  //           "https://randomwordgenerator.com/img/picture-generator/54e1d24b4d5aaa14f1dc8460962e33791c3ad6e04e5074417d2e7ed69f49cd_640.jpg",
+  //       },
+  //       {
+  //         productId: "22",
+  //         name: "this is business",
+  //         price: 120,
+  //         quantity: 2,
+  //         image:
+  //           "https://randomwordgenerator.com/img/picture-generator/55e8d4474c50a514f1dc8460962e33791c3ad6e04e507440762879dc9144c2_640.jpg",
+  //       },
+  //       {
+  //         productId: "1",
+  //         name: "animal",
+  //         price: 12,
+  //         quantity: 1,
+  //         image:
+  //           "https://randomwordgenerator.com/img/picture-generator/52e3d7434b51aa14f1dc8460962e33791c3ad6e04e5074417c2f7cd3944dc4_640.jpg",
+  //       },
+  //     ],
+  //   };
+
+  //   setOrderDetails(mockData);
+  // }, [id]);
+
+  if (loading) {
+    return <p>Loading</p>;
+  }
+  if (error) {
+    return <p>Error: {error}</p>;
+  }
 
   return (
     <div className="max-w-7xl mx-auto p-4 sm:p-6">

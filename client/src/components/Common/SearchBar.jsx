@@ -3,10 +3,19 @@ import { HiBars3BottomRight } from "react-icons/hi2";
 import { IoMdCloseCircle } from "react-icons/io";
 import { FaSearch } from "react-icons/fa";
 import { toast } from "react-toastify";
+import { useDispatch } from "react-redux";
+import { useNavigate } from "react-router-dom";
+import {
+  setFilters,
+  fetchProductsByFilters,
+} from "./../../redux/slices/productSlice";
 
 const SearchBar = () => {
   const [searchTerm, setSearchTerm] = useState("");
   const [isOpen, setIsOpen] = useState(false);
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+
   const handleChange = () => {
     setIsOpen(!isOpen);
   };
@@ -14,8 +23,10 @@ const SearchBar = () => {
   const handleSearch = async (e) => {
     e.preventDefault();
     try {
+      dispatch(setFilters({ search: searchTerm }));
+      dispatch(fetchProductsByFilters({ search: searchTerm }));
       setIsOpen(false);
-      setSearchTerm("");
+      navigate(`/collections/all?search=${searchTerm}`);
     } catch (error) {
       toast.error(error.message);
       setIsOpen(false);

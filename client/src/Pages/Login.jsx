@@ -1,18 +1,38 @@
 import React, { useState } from "react";
 import login from ".././assets/login.webp";
-import { Link } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import { loginUser } from "../redux/slices/authSlice";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import { mergeCart } from "../redux/slices/cartSlice";
 
 const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const dispatch = useDispatch();
+  const navigate = useNavigate();
+  const location = useLocation();
+  const { user, guestId } = useSelector((state) => state.auth);
+  const { cart } = useSelector((state) => state.cart);
 
   const handleLogin = (e) => {
     e.preventDefault();
     dispatch(loginUser({ email, password }));
   };
+  // get redirect parameter and check if its checkout or something
+  const redirect = new URLSearchParams(location.search).get("redirect") || "/";
+  const isCheckoutRedirect = redirect.includes("checkout");
+
+  useEffect(() => {
+    if (user) {
+      if (cart?.products.length > 0 && guestId) {
+        dispatch(mergeCart({ guestId, user })).then(() => {
+          navigate(isCheckoutRedirect ? "/checkout" : "/");
+        });
+      } else {
+        navigate(isCheckoutRedirect ? "checkout" : "/");
+      }
+    }
+  }, [user, guestId, cart, isCheckoutRedirect, dispatch]);
   return (
     <section className="flex">
       <div className="w-full h-[800px] flex items-center justify-center p-10 bg-black/4 lg:w-1/2">
@@ -55,7 +75,10 @@ const Login = () => {
           </form>
           <p className="mt-5 text-sm text-center">
             Don't have an account?{" "}
-            <Link to="/register" className="text-blue-500 hover:text-blue-600">
+            <Link
+              to={`/register?redirect=${encodeURIComponent(redirect)}`}
+              className="text-blue-500 hover:text-blue-600"
+            >
               Register
             </Link>
           </p>

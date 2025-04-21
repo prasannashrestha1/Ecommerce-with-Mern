@@ -1,4 +1,6 @@
-import React from "react";
+import React, { useSyncExternalStore } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
 
 const checkout = {
   _id: "12223",
@@ -49,6 +51,20 @@ const checkout = {
 };
 
 const DeliveryDate = (date) => {
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+  const { checkout } = useSelector((state) => state.checkout);
+
+  // clear the cart when the order is confirmed.
+  useEffect(() => {
+    if (checkout && checkout._id) {
+      dispatch(clearCart());
+      localStorage.removeItem("cart");
+    } else {
+      navigate("/my-order");
+    }
+  }, [dispatch, navigate, checkout]);
+
   const deliveryDate = new Date(date);
   deliveryDate.setDate(deliveryDate.getDate() + 10);
   return deliveryDate;

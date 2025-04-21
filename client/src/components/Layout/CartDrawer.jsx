@@ -23,23 +23,31 @@ const CartDrawer = ({ cartOpen, handleCartToggle }) => {
       }`}
     >
       <div className="flex justify-between cursor-pointer">
-        <h1 className="  font-semibold text-xl">My Cart (4)</h1>
+        <h1 className="  font-semibold text-xl">My Cart </h1>
         <IoMdClose className="w-6 h-6" onClick={handleCartToggle} />
       </div>
 
       {/* cart area */}
       <div className="grow h-[80%]">
-        <CartContent />
+        {cart && cart?.products?.length > 0 ? (
+          <CartContent cart={cart} userId={userId} guestId={guestId} />
+        ) : (
+          <p>Your Cart is empty</p>
+        )}
       </div>
 
       {/* footer area -checkbout button */}
       <div className="sticky   flex flex-col space-y-4 bottom-7 px-4 pt-2">
-        <button onClick={handleCheckout} className="checkout-btn">
-          Checkout
-        </button>
-        <p className="text-xs text-tsecondary tracking-tighter">
-          shipping, taxes, and discount codes calculated at checkout
-        </p>
+        {cart && cart?.products?.length > 0 && (
+          <>
+            <button onClick={handleCheckout} className="checkout-btn">
+              Checkout
+            </button>
+            <p className="text-xs text-tsecondary tracking-tighter">
+              shipping, taxes, and discount codes calculated at checkout
+            </p>
+          </>
+        )}
       </div>
     </div>
   );
