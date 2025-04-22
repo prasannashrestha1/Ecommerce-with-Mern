@@ -22,7 +22,7 @@ export const updateProduct = async (req, res) => {
   try {
     let product = await productModal.findById(req.params.id);
     if (!product) {
-      return res.status(200).json({
+      return res.status(400).json({
         success: false,
         message: "Product Not Found",
       });
@@ -33,6 +33,27 @@ export const updateProduct = async (req, res) => {
     product.price = price || product.price;
     product.colors = colors || product.colors;
     product.sku = sku || product.sku;
+  } catch (error) {
+    return res.status(500).json({
+      success: false,
+      message: error.message,
+    });
+  }
+};
+export const deleteProduct = async (req, res) => {
+  try {
+    const product = await productModal.findById(req.params.id);
+    if (!product) {
+      return res.status(400).json({
+        success: false,
+        message: "Product Not Found",
+      });
+    }
+    await product.deleteOne();
+    return res.status(200).json({
+      success: false,
+      message: "Product Deleted successfully",
+    });
   } catch (error) {
     return res.status(500).json({
       success: false,

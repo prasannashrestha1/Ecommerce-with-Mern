@@ -20,7 +20,9 @@ export const getAllOrders = async (req, res) => {
 export const updateOrderStatus = async (req, res) => {
   const { status, isDelivered } = req.body;
   try {
-    const order = await orderModel.findById(req.params.id);
+    const order = await orderModel
+      .findById(req.params.id)
+      .populate("user", "name email");
     if (!order) {
       return res.status(400).json({
         success: false,

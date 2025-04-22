@@ -1,8 +1,18 @@
 import React, { useState } from "react";
-import { FaTrash } from "react-icons/fa";
+import { FaDisease, FaTrash } from "react-icons/fa";
+import { useDispatch, useSelector } from "react-redux";
+import { useNavigate, useParams } from "react-router-dom";
+import { fetchProductDetails } from "../../redux/slices/productSlice";
+import { updateProduct } from "../../redux/slices/adminProductSlice";
 
 const EditProductPage = () => {
-  const [image, setImage] = useState([]);
+  const dispatch = useDispatch();
+  const { id } = useParams();
+  const navigate = useNavigate();
+  const { selectedProduct, loading, error } = useSelector(
+    (state) => state.products
+  );
+
   const [productData, setProductData] = useState({
     _id: 13232,
     name: "shirt",
@@ -17,15 +27,22 @@ const EditProductPage = () => {
     collections: "",
     material: "",
     gender: "",
-    images: [
-      {
-        url: "https://randomwordgenerator.com/img/picture-generator/5ee0d3454a56b10ff3d8992cc12c30771037dbf85257714d742d7ed5964b_640.jpg",
-      },
-      {
-        url: "https://randomwordgenerator.com/img/picture-generator/5ee0d3454a56b10ff3d8992cc12c30771037dbf85257714d742d7ed5964b_640.jpg",
-      },
-    ],
+    images: [],
   });
+
+  const [uploading, setUploading] = useState(false); //image uploading
+
+  useEffect(() => {
+    if (id) {
+      dispatch(fetchProductDetails(id));
+    }
+  }, [dispatch, id]);
+
+  useEffect(() => {
+    if (selectedProduct) {
+      setProductData(selectedProduct);
+    }
+  }, [selectedProduct]);
 
   const handleChange = (e) => {
     setProductData((prevData) => ({
@@ -35,14 +52,39 @@ const EditProductPage = () => {
   };
 
   const handleImageUpload = async (e) => {
-    const imageUrl = e.target.files[0];
-    console.log(imageUrl);
+    const file = e.target.files[0];
+    const formData = new FormData();
+    formData.append("image", file);
+    try {
+      setUploading(true);
+      const { data } = await axios.post(
+        `${import.meta.env.VITE_BACKEND_URL}/api/upload`,
+        formData,
+        {
+          headers: {
+            "Content-Type": "multipart/formData",
+          },
+        }
+      );
+      setProductData((prevData) => ({
+        ...prevData,
+        image: [...prevData.images, { url: data.imageUrl, altText: "" }],
+      }));
+      setUploading(false);
+    } catch (error) {
+      console.log(error.message);
+      setUploading(false);
+    }
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log(productData);
+    dispatch(updateProduct({ id, productData }));
+    navigate("admin/products");
   };
+
+  if (loading) return <p>Loading...</p>;
+  if (error) return <p>Error : {error}...</p>;
   return (
     <div className="max-w-5xl mx-auto p-6 shadow-md rounded-md">
       <h2 className="text-3xl font-bold mb-6">Edit Product</h2>

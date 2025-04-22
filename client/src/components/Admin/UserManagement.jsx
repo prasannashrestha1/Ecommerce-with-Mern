@@ -1,20 +1,44 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
+import {
+  changeUserType,
+  createNewUser,
+  deleteUser,
+  getAllUsers,
+} from "../../redux/slices/adminSlice";
 
 const UserManagement = () => {
-  const users = [
-    {
-      _id: 1234,
-      name: "John Doe",
-      email: "john@example.com",
-      role: "admin",
-    },
-  ];
+  // const users = [
+  //   {
+  //     _id: 1234,
+  //     name: "John Doe",
+  //     email: "john@example.com",
+  //     role: "admin",
+  //   },
+  // ];
   const [formData, setFormData] = useState({
     name: "",
     email: "",
     password: "",
     role: "Admin",
   });
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+  const { user } = useSelector((state) => state.auth);
+
+  const { users, loading, error } = useSelector((state) => state.admin);
+
+  useEffect(() => {
+    if (user && user.role !== "admin") {
+      navigate("/");
+    }
+  }, [user, navigate]);
+
+  useEffect(() => {
+    if (user && user.role === "admin");
+    dispatch(getAllUsers());
+  }, [dispatch, user]);
 
   const handleChange = (e) => {
     setFormData({
@@ -25,7 +49,7 @@ const UserManagement = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    console.log(formData);
+    dispatch(createNewUser());
     setFormData({
       name: "",
       email: "",
@@ -34,17 +58,19 @@ const UserManagement = () => {
     });
   };
 
-  const handleRoleChange = (userId, newRole) => {
-    console.log({ id: userId, role });
+  const handleRoleChange = (userId, role) => {
+    dispatch(changeUserType({ userId, role }));
   };
-  const handleDeleteUser = (id) => {
+  const handleDeleteUser = (userId) => {
     if (window.confirm("Are you sure you want to delete the user")) {
-      console.log({ id });
+      dispatch(deleteUser(userId));
     }
   };
   return (
     <div className="max-w-7xl mx-auto">
       <h1 className="text-2xl font-semibold mb-8">User Management</h1>
+      {loading && <p>Loading</p>}
+      {error && <p>Erroor: {error}</p>}
       <div className="flex flex-col">
         <h2 className="text-xl font-medium"> Add User</h2>
         <form

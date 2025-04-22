@@ -45,17 +45,18 @@ export const createNewUser = createAsyncThunk(
 // change member type of a  user
 export const changeUserType = createAsyncThunk(
   "admin/changeUserType",
-  async (userId, { rejectWithValue }) => {
+  async ({ userId, role }, { rejectWithValue }) => {
     try {
       const response = await axios.put(
         `${import.meta.env.VITE_BACKEND_URL}/api/admin/users/${userId}`,
+        { role },
         {
           headers: {
             Authorization: `Bearer ${localStorage.getItem("userToken")}`,
           },
         }
       );
-      return response.data;
+      return response.data.user;
     } catch (error) {
       return rejectWithValue(error.response.data.message);
     }
