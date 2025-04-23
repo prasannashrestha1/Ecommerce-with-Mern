@@ -105,6 +105,18 @@ const Home = () => {
   const dispatch = useDispatch();
   const { products, loading, error } = useSelector((state) => state.products);
   const [bestSellerProduct, setBestSellerProduct] = useState(null);
+
+  // fetch best seller product
+  const fetchBestSeller = async () => {
+    try {
+      const response = await axios.get(
+        `${import.meta.env.VITE_BACKEND_URL}/api/product/best-seller`
+      );
+      setBestSellerProduct(response.data.bestSeller);
+    } catch (error) {
+      console.log(error.response?.data || error.message);
+    }
+  };
   useEffect(() => {
     // fetch products for a specific colleciton
     dispatch(
@@ -114,18 +126,6 @@ const Home = () => {
         limit: 8,
       })
     );
-
-    // fetch best seller product
-    const fetchBestSeller = async () => {
-      try {
-        const response = await axios.get(
-          `${import.meta.env.VITE_BACKENE_URL}/api/product/getBestSellerProduct`
-        );
-        setBestSellerProduct(response.data.bestSeller);
-      } catch (error) {
-        console.log(error.message);
-      }
-    };
 
     fetchBestSeller();
   }, [dispatch]);
@@ -139,9 +139,9 @@ const Home = () => {
       {/* best Sellers */}
       <h2 className="text-3xl text-center font-bold mb-4 ">Best Seller</h2>
       {bestSellerProduct ? (
-        <ProductDetails productId={bestSellerProduct._id} />
+        <ProductDetails productId={"6803b3a61fe71206d4119523"} />
       ) : (
-        <p className="text-center">Loading Best seller product</p>
+        <ProductGrid products={products} loading={loading} error={error} />
       )}
 
       <div className=" my-5 mx-auto p-4">

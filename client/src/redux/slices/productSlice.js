@@ -40,25 +40,32 @@ export const fetchProductsByFilters = createAsyncThunk(
       search,
       limit,
     },
-    { isRejectedWithValue }
+    { rejectWithValue }
   ) => {
-    const query = new URLSearchParams();
-    if (collection) query.append("collection", collection);
-    if (size) query.append("size", size);
-    if (color) query.append("color", color);
-    if (gender) query.append("gender", gender);
-    if (minPrice) query.append("minPrice", minPrice);
-    if (maxPrice) query.append("maxPrice", maxPrice);
-    if (category) query.append("category", category);
-    if (material) query.append("material", material);
-    if (brand) query.append("brand", brand);
-    if (sortBy) query.append("sortBy", sortBy);
-    if (search) query.append("search", search);
-    if (limit) query.append("limit", limit);
-    const response = await axios.get(
-      `${import.meta.env.VITE_BACKEND_URL}/api/product/filteredProduct`
-    );
-    return response.data;
+    try {
+      const query = new URLSearchParams();
+      if (collection) query.append("collection", collection);
+      if (size) query.append("size", size);
+      if (color) query.append("color", color);
+      if (gender) query.append("gender", gender);
+      if (minPrice) query.append("minPrice", minPrice);
+      if (maxPrice) query.append("maxPrice", maxPrice);
+      if (category) query.append("category", category);
+      if (material) query.append("material", material);
+      if (brand) query.append("brand", brand);
+      if (sortBy) query.append("sortBy", sortBy);
+      if (search) query.append("search", search);
+      if (limit) query.append("limit", limit);
+
+      const response = await axios.get(
+        `${
+          import.meta.env.VITE_BACKEND_URL
+        }/api/product/filteredProduct?${query.toString()}`
+      );
+      return response.data;
+    } catch (error) {
+      return rejectWithValue(error.message);
+    }
   }
 );
 
@@ -67,9 +74,7 @@ export const fetchProductDetails = createAsyncThunk(
   "/products/fetchProductDetails",
   async (productId) => {
     const response = await axios.get(
-      `${
-        import.meta.env.VITE_BACKEND_URL
-      }/api/products/filteredProduct/${productId}`
+      `${import.meta.env.VITE_BACKEND_URL}/api/product/${productId}`
     );
     return response.data;
   }
@@ -80,7 +85,7 @@ export const updateProduct = createAsyncThunk(
   "products/updateProduct",
   async ({ id, productData }) => {
     const response = await axios.put(
-      `${import.meta.env.VITE_BACKEND_URL}/api/products/${id}`,
+      `${import.meta.env.VITE_BACKEND_URL}/api/product/${id}`,
       productData,
       {
         headers: {
@@ -93,15 +98,18 @@ export const updateProduct = createAsyncThunk(
 );
 // async thunk to fetch similar products
 export const fetchSimilarProduct = createAsyncThunk(
-  "products/fetchSilarProducts",
-  async (productId) => {
-    const response = await axios.get(
-      `${
-        import.meta.env.VITE_BACKEND_URL
-      }/import { updateProduct } from './productSlice';
-api/products/getSimilarProduct/${productId}`
-    );
-    return response.data;
+  "products/fetchSimilarProduct",
+  async (productId, { rejectWithValue }) => {
+    try {
+      const response = await axios.get(
+        `${
+          import.meta.env.VITE_BACKEND_URL
+        }/api/product/getSimilarProduct/${productId}`
+      );
+      return response.data;
+    } catch (error) {
+      return rejectWithValue(error.message);
+    }
   }
 );
 
@@ -138,7 +146,7 @@ const productSlice = createSlice({
       .addCase(fetchProductsByFilters.fulfilled, (state, action) => {
         state.loading = false;
         state.error = null;
-        state.products = Array.isArray(action.payload) ? action.payload : [];
+        state.products = action.payload.filteredProduct;
       })
       .addCase(fetchProductsByFilters.rejected, (state, action) => {
         state.loading = false;
@@ -152,13 +160,11 @@ const productSlice = createSlice({
       .addCase(fetchSimilarProduct.fulfilled, (state, action) => {
         state.loading = false;
         state.error = null;
-        state.similarProducts = Array.isArray(action.payload)
-          ? action.payload
-          : [];
+        state.similarProducts = action.payload.similarProduct;
       })
       .addCase(fetchSimilarProduct.rejected, (state, action) => {
         state.loading = false;
-        state.error = action.error.message;
+        state.error = action.payload;
       })
       // handle fetching single product details
       .addCase(fetchProductDetails.pending, (state) => {
@@ -168,7 +174,7 @@ const productSlice = createSlice({
       .addCase(fetchProductDetails.fulfilled, (state, action) => {
         state.loading = false;
         state.error = null;
-        state.selectedProduct = action.payload;
+        state.selectedProduct = action.payload.product;
       })
       .addCase(fetchProductDetails.rejected, (state, action) => {
         state.loading = false;
@@ -183,7 +189,7 @@ const productSlice = createSlice({
         state.loading = false;
         const updatedProduct = action.payload;
         const index = state.products.findIndex(
-          (products) => products._id === updateProduct._id
+          (product) => product._id === updateProduct._id
         );
         if (index !== -1) {
           state.products[index] = updatedProduct;
@@ -191,7 +197,7 @@ const productSlice = createSlice({
       })
       .addCase(updateProduct.rejected, (state, action) => {
         state.loading = false;
-        state.error = action.error.message;
+        state.error = action.payload.message;
       });
   },
 });

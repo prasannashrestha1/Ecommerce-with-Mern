@@ -107,4 +107,4 @@ const adminProductSlice = createSlice({
   },
 });
 
-export default adminProductSlice.reducer();
+export default adminProductSlice.reducer;

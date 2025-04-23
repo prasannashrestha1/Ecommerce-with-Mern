@@ -218,7 +218,7 @@ export const getFilteredProducts = async (req, res) => {
   } catch (error) {
     return res.status(500).json({
       success: false,
-      message: "Internal Server Error",
+      message: error.message,
     });
   }
 };
@@ -242,7 +242,7 @@ export const getProduct = async (req, res) => {
   } catch (error) {
     res.status(500).json({
       success: false,
-      message: "Internal server error",
+      message: error.message,
     });
   }
 };
@@ -280,7 +280,11 @@ export const getSimilarProduct = async (req, res) => {
 
 export const getBestSellerProduct = async (req, res) => {
   try {
-    const bestSeller = await productModal.findOne({}).sort({ rating: -1 });
+    const bestSeller = await productModal.findOne(
+      {},
+      {},
+      { sort: { rating: -1 } }
+    );
     if (bestSeller) {
       res.status(200).json({
         success: true,
@@ -296,7 +300,7 @@ export const getBestSellerProduct = async (req, res) => {
   } catch (error) {
     res.status(500).json({
       success: false,
-      message: "Internal server error",
+      message: error.message,
     });
   }
 };

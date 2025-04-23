@@ -5,100 +5,100 @@ import axios from "axios";
 const NewArrivals = () => {
   const scrollContainer = useRef(null);
   const [newArrivals, setNewArrivals] = useState([]);
-  const ad = [
-    {
-      _id: "1",
-      name: "Stylish Jacket",
-      price: 200,
-      images: [
-        {
-          url: "https://fastly.picsum.photos/id/134/200/300.jpg?hmac=KN18cCDft4FPM0XJpr7EhZLtUP6Z4cZqtF8KThtTvsI",
-          altText: "Jacket",
-        },
-      ],
-    },
-    {
-      _id: "2",
-      name: "Stylish Jacket",
-      price: 200,
-      images: [
-        {
-          url: "https://piscum.photos/500/500?random=2",
-          altText: "Jacket",
-        },
-      ],
-    },
-    {
-      _id: "3",
-      name: "Stylish Jacket",
-      price: 200,
-      images: [
-        {
-          url: "https://randomwordgenerator.com/img/picture-generator/tt-4269869_640.jpg",
-          altText: "Jacket",
-        },
-      ],
-    },
-    {
-      _id: "4",
-      name: "Stylish Jacket",
-      price: 200,
-      images: [
-        {
-          url: "https://randomwordgenerator.com/img/picture-generator/55e4d44a4854ad14f1dc8460962e33791c3ad6e04e507440762a7cd59f4bc1_640.jpg",
-          altText: "Jacket",
-        },
-      ],
-    },
-    {
-      _id: "5",
-      name: "Stylish Jacket",
-      price: 200,
-      images: [
-        {
-          url: "https://piscum.photos/500/500?random=5",
-          altText: "Jacket",
-        },
-      ],
-    },
-    {
-      _id: "6",
-      name: "Stylish Jacket",
-      price: 200,
-      images: [
-        {
-          url: "https://randomwordgenerator.com/img/picture-generator/55e4d44a4854ad14f1dc8460962e33791c3ad6e04e507440762a7cd59f4bc1_640.jpg",
-          altText: "Jacket",
-        },
-      ],
-    },
-    {
-      _id: "7",
-      name: "Stylish Jacket",
-      price: 200,
-      images: [
-        {
-          url: "https://randomwordgenerator.com/img/picture-generator/57e6d1454e51a914f1dc8460962e33791c3ad6e04e50744172277fd7914bc3_640.jpg",
-          altText: "Jacket",
-        },
-      ],
-    },
-    {
-      _id: "8",
-      name: "Stylish Jacket",
-      price: 200,
-      images: [
-        {
-          url: "https://randomwordgenerator.com/img/picture-generator/55e4d44a4854ad14f1dc8460962e33791c3ad6e04e507440762a7cd59f4bc1_640.jpg",
-          altText: "Jacket",
-        },
-      ],
-    },
-  ];
+  // const ad = [
+  //   {
+  //     _id: "1",
+  //     name: "Stylish Jacket",
+  //     price: 200,
+  //     images: [
+  //       {
+  //         url: "https://fastly.picsum.photos/id/134/200/300.jpg?hmac=KN18cCDft4FPM0XJpr7EhZLtUP6Z4cZqtF8KThtTvsI",
+  //         altText: "Jacket",
+  //       },
+  //     ],
+  //   },
+  //   {
+  //     _id: "2",
+  //     name: "Stylish Jacket",
+  //     price: 200,
+  //     images: [
+  //       {
+  //         url: "https://piscum.photos/500/500?random=2",
+  //         altText: "Jacket",
+  //       },
+  //     ],
+  //   },
+  //   {
+  //     _id: "3",
+  //     name: "Stylish Jacket",
+  //     price: 200,
+  //     images: [
+  //       {
+  //         url: "https://randomwordgenerator.com/img/picture-generator/tt-4269869_640.jpg",
+  //         altText: "Jacket",
+  //       },
+  //     ],
+  //   },
+  //   {
+  //     _id: "4",
+  //     name: "Stylish Jacket",
+  //     price: 200,
+  //     images: [
+  //       {
+  //         url: "https://randomwordgenerator.com/img/picture-generator/55e4d44a4854ad14f1dc8460962e33791c3ad6e04e507440762a7cd59f4bc1_640.jpg",
+  //         altText: "Jacket",
+  //       },
+  //     ],
+  //   },
+  //   {
+  //     _id: "5",
+  //     name: "Stylish Jacket",
+  //     price: 200,
+  //     images: [
+  //       {
+  //         url: "https://piscum.photos/500/500?random=5",
+  //         altText: "Jacket",
+  //       },
+  //     ],
+  //   },
+  //   {
+  //     _id: "6",
+  //     name: "Stylish Jacket",
+  //     price: 200,
+  //     images: [
+  //       {
+  //         url: "https://randomwordgenerator.com/img/picture-generator/55e4d44a4854ad14f1dc8460962e33791c3ad6e04e507440762a7cd59f4bc1_640.jpg",
+  //         altText: "Jacket",
+  //       },
+  //     ],
+  //   },
+  //   {
+  //     _id: "7",
+  //     name: "Stylish Jacket",
+  //     price: 200,
+  //     images: [
+  //       {
+  //         url: "https://randomwordgenerator.com/img/picture-generator/57e6d1454e51a914f1dc8460962e33791c3ad6e04e50744172277fd7914bc3_640.jpg",
+  //         altText: "Jacket",
+  //       },
+  //     ],
+  //   },
+  //   {
+  //     _id: "8",
+  //     name: "Stylish Jacket",
+  //     price: 200,
+  //     images: [
+  //       {
+  //         url: "https://randomwordgenerator.com/img/picture-generator/55e4d44a4854ad14f1dc8460962e33791c3ad6e04e507440762a7cd59f4bc1_640.jpg",
+  //         altText: "Jacket",
+  //       },
+  //     ],
+  //   },
+  // ];
 
   const scrollRight = () => {
-    console.log(scrollContainer.current.scrollWidth);
-    console.log(scrollContainer.current.clientWidth);
+    // console.log(scrollContainer.current.scrollWidth);
+    // console.log(scrollContainer.current.clientWidth);
     scrollContainer.current?.scrollBy({ left: 200, behavior: "smooth" });
   };
   const scrollLeft = () => {
@@ -114,10 +114,49 @@ const NewArrivals = () => {
         setNewArrivals(response.data.newArrivals);
         console.log(response.data);
       } catch (error) {
-        console.log(error.message + "this is working");
+        console.log(error.message + "this is not working");
       }
     };
     fetchNewArrivals();
+  }, []);
+
+  useEffect(() => {
+    const container = scrollContainer.current;
+    let isDown = false;
+    let startX;
+    let scrollLeft;
+
+    const handleMouseDown = (e) => {
+      isDown = true;
+      container.classList.add("cursor-grabbing");
+      startX = e.pageX - container.offsetLeft;
+      scrollLeft = container.scrollLeft;
+    };
+
+    const handleMouseLeaveOrUp = () => {
+      isDown = false;
+      container.classList.remove("cursor-grabbing");
+    };
+
+    const handleMouseMove = (e) => {
+      if (!isDown) return;
+      e.preventDefault();
+      const x = e.pageX - container.offsetLeft;
+      const walk = (x - startX) * 1.5;
+      container.scrollLeft = scrollLeft - walk;
+    };
+
+    container.addEventListener("mousedown", handleMouseDown);
+    container.addEventListener("mouseleave", handleMouseLeaveOrUp);
+    container.addEventListener("mouseup", handleMouseLeaveOrUp);
+    container.addEventListener("mousemove", handleMouseMove);
+
+    return () => {
+      container.removeEventListener("mousedown", handleMouseDown);
+      container.removeEventListener("mouseleave", handleMouseLeaveOrUp);
+      container.removeEventListener("mouseup", handleMouseLeaveOrUp);
+      container.removeEventListener("mousemove", handleMouseMove);
+    };
   }, []);
 
   return (
@@ -132,10 +171,16 @@ const NewArrivals = () => {
           </p>
         </div>
         <div className="flex h-fit gap-2 top-12 right-0">
-          <div onClick={scrollLeft} className="p-2 border border-gray-300">
+          <div
+            onClick={scrollLeft}
+            className="p-2 border cursor-pointer border-gray-300"
+          >
             <FaAngleLeft />
           </div>
-          <div onClick={scrollRight} className="p-2 border border-gray-300">
+          <div
+            onClick={scrollRight}
+            className="p-2 border cursor-pointer border-gray-300"
+          >
             <FaAngleRight />
           </div>
         </div>
@@ -146,27 +191,27 @@ const NewArrivals = () => {
           ref={scrollContainer}
           className="flex gap-4 mx-auto overflow-x-scroll max-w-[1560px] pb-2 md:pb-4"
         >
-          {newArrivals &&
-            newArrivals.map((item, index) => (
-              <div
-                key={index}
-                className="h-[200px] sm:h-[250px] md:h-[350px]  rounded-lg min-w-[220px] md:min-w-[300px] flex mb-4 relative"
-              >
-                <img
-                  src={
-                    item.images[0]
-                      ? item.images[0].url
-                      : "https://plus.unsplash.com/premium_photo-1683865776032-07bf70b0add1?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MXx8dXJsfGVufDB8fDB8fHww"
-                  }
-                  className="w-full object-cover rounded-lg"
-                  alt={item.images.altText}
-                />
-                <div className="absolute bg-black/50 backdrop-blur-[4px] bottom-0 w-full bgblur rounded-b-lg p-4 text-sm text-start text-white">
-                  <p className="font-semibold">{item.name}</p>
-                  <p>{item.price}</p>
-                </div>
+          {newArrivals.map((item, index) => (
+            <div
+              key={index}
+              className="h-[200px] sm:h-[250px] md:h-[350px] rounded-lg min-w-[220px] md:min-w-[300px] flex mb-4 relative"
+            >
+              <img
+                draggable={false}
+                src={
+                  item.images[0]
+                    ? item.images[0].url
+                    : "https://plus.unsplash.com/premium_photo-1683865776032-07bf70b0add1?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MXx8dXJsfGVufDB8fDB8fHww"
+                }
+                className="w-full object-cover rounded-lg"
+                alt={item.images.altText}
+              />
+              <div className="absolute bg-black/50 backdrop-blur-[4px] bottom-0 w-full bgblur rounded-b-lg p-4 text-sm text-start text-white">
+                <p className="font-semibold">{item.name}</p>
+                <p>{item.price}</p>
               </div>
-            ))}
+            </div>
+          ))}
         </div>
       </div>
     </section>

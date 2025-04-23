@@ -4,7 +4,6 @@ import Paypal from "../components/Cart/Paypal";
 import { useDispatch, useSelector } from "react-redux";
 import { createCheckout } from "./../redux/slices/checkoutSlice";
 
-console.log(`${cart.products.reduce((a, b) => a + b.price, 0)}`);
 const Checkout = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
@@ -31,7 +30,7 @@ const Checkout = () => {
   const handleCreateCheckout = async (e) => {
     e.preventDefault();
     if (cart && cart.products.length > 0) {
-      const res = await dispatch(
+      const res = dispatch(
         createCheckout({
           checkoutItems: cart.products,
           shippingAddress,
