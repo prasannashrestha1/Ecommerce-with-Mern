@@ -7,7 +7,7 @@ import { useSelector } from "react-redux";
 const CartDrawer = ({ cartOpen, handleCartToggle }) => {
   const navigate = useNavigate();
   const { user, guestId } = useSelector((state) => state.auth);
-  const { cart } = useSelector((state) => state.auth);
+  const { cart } = useSelector((state) => state.cart);
   const userId = user ? user._id : null;
   const handleCheckout = () => {
     handleCartToggle();

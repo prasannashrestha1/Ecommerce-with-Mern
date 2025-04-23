@@ -1,6 +1,7 @@
 import { AiOutlineMinus, AiOutlinePlus } from "react-icons/ai";
 import { useDispatch } from "react-redux";
 import { updateCartItemQuantity } from "./../../redux/slices/cartSlice";
+import { MdDelete } from "react-icons/md";
 const CartContent = ({ cart, userId, guestId }) => {
   const cartProducts = [
     {
@@ -125,14 +126,7 @@ const CartContent = ({ cart, userId, guestId }) => {
               <AiOutlineMinus className="w-4 h-4" />
             </div>
             <p>{item.quantity}</p>
-            <div
-              className="cart-add-minus"
-              onClick={() =>
-                handleRemoveFromCart(item.productId, item.size, item.color)
-              }
-            >
-              <AiOutlinePlus className="w-4 h-4" />
-            </div>
+
             <div
               className="cart-add-minus"
               onClick={() =>
@@ -146,6 +140,14 @@ const CartContent = ({ cart, userId, guestId }) => {
               }
             >
               <AiOutlinePlus className="w-4 h-4" />
+            </div>
+            <div
+              className="cart-add-minus"
+              onClick={() =>
+                handleRemoveFromCart(item.productId, item.size, item.color)
+              }
+            >
+              <MdDelete className="w-4 h-4" color="red" />
             </div>
           </div>
         </div>

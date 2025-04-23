@@ -37,7 +37,7 @@ export const fetchCart = createAsyncThunk(
 export const addToCart = createAsyncThunk(
   "cart/addToCart",
   async (
-    { productId, size, quantity, color, guestId, userID },
+    { productId, size, quantity, color, guestId, userId },
     { rejectWithValue }
   ) => {
     try {
@@ -49,7 +49,7 @@ export const addToCart = createAsyncThunk(
           quantity,
           color,
           guestId,
-          userID,
+          userId,
         }
       );
       return response.data;
@@ -144,7 +144,7 @@ const cartSlice = createSlice({
       })
       .addCase(fetchCart.fulfilled, (state, action) => {
         state.loading = false;
-        cart = action.payload;
+        state.cart = action.payload;
         saveCartToStorage(action.payload);
       })
       .addCase(fetchCart.rejected, (state, action) => {
@@ -158,7 +158,7 @@ const cartSlice = createSlice({
       })
       .addCase(addToCart.fulfilled, (state, action) => {
         state.loading = false;
-        cart = action.payload;
+        state.cart = action.payload;
         saveCartToStorage(action.payload);
       })
       .addCase(addToCart.rejected, (state, action) => {
@@ -172,7 +172,7 @@ const cartSlice = createSlice({
       })
       .addCase(updateCartItemQuantity.fulfilled, (state, action) => {
         state.loading = false;
-        cart = action.payload;
+        state.cart = action.payload;
         saveCartToStorage(action.payload);
       })
       .addCase(updateCartItemQuantity.rejected, (state, action) => {
@@ -187,7 +187,7 @@ const cartSlice = createSlice({
       })
       .addCase(removeFromCart.fulfilled, (state, action) => {
         state.loading = false;
-        cart = action.payload;
+        state.cart = action.payload;
         saveCartToStorage(action.payload);
       })
       .addCase(removeFromCart.rejected, (state, action) => {
@@ -201,7 +201,7 @@ const cartSlice = createSlice({
       })
       .addCase(mergeCart.fulfilled, (state, action) => {
         state.loading = false;
-        cart = action.payload;
+        state.cart = action.payload;
         saveCartToStorage(action.payload);
       })
       .addCase(mergeCart.rejected, (state, action) => {

@@ -4,8 +4,10 @@ import productModal from "../models/ProductModal.js";
 // helper function to get a cart by user id or guestid
 const getCart = async (userId, guestId) => {
   if (userId) {
+    console.log("user id is working");
     return await cartModal.findOne({ user: userId });
   } else if (guestId) {
+    console.log("guestid is working");
     return await cartModal.findOne({ guestId });
   }
   return null;
@@ -21,6 +23,7 @@ export const addToCart = async (req, res) => {
         message: "Product Not found",
       });
     }
+    console.log(userId);
     let cart = await getCart(userId, guestId);
     if (cart) {
       const productIndex = cart.products.findIndex(
@@ -54,7 +57,7 @@ export const addToCart = async (req, res) => {
     } else {
       // create a new cart for the guest or user.
       const newCart = await cartModal.create({
-        userId: userId ? userId : undefined,
+        user: userId ? userId : undefined,
         guestId: guestId ? guestId : "guest_" + new Date().getTime(),
         products: [
           {
