@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import Paypal from "../components/Cart/Paypal";
 import { useDispatch, useSelector } from "react-redux";
@@ -18,6 +18,7 @@ const Checkout = () => {
     postalCode: "",
     country: "",
     phone: "",
+    email: user?.email || "",
   });
 
   // ensure cart is loaded before procedding
@@ -29,6 +30,7 @@ const Checkout = () => {
 
   const handleCreateCheckout = async (e) => {
     e.preventDefault();
+    console.log("works");
     if (cart && cart.products.length > 0) {
       const res = dispatch(
         createCheckout({
@@ -38,8 +40,10 @@ const Checkout = () => {
           totalPrice: cart.totalPrice,
         })
       );
+      console.log(res.data);
       if (res.payload && res.payload._id) {
-        setCheckoutId(res.payload._id); //set checkout id if checkout is successfull
+        setCheckoutId(res.payload._id);
+        console.log("this is also working"); //set checkout id if checkout is successfull
       }
     }
   };
@@ -104,6 +108,12 @@ const Checkout = () => {
             <input
               type="email"
               value={user ? user.email : ""}
+              onChange={(e) =>
+                setShippingAddress({
+                  ...shippingAddress,
+                  email: e.target.value,
+                })
+              }
               placeholder="user@email.com"
               className="w-full p-2 border rounded"
             />

@@ -183,3 +183,58 @@ export const mergeCart = async (req, res) => {
     });
   }
 };
+
+export const deleteCart = async (req, res) => {
+  try {
+    const { productId, size, color, guestId, userId } = req.body;
+
+    const cart = await cartModal.findOne({
+      user: userId || null,
+      guestId: guestId || null,
+    });
+
+    if (!cart) {
+      return res
+        .status(400)
+        .json({ success: false, message: "Cart not found" });
+    }
+
+    console.log("Original Products:", cart.products);
+
+    const productIdStr = productId.toString();
+
+    const updatedProducts = cart.products.filter((product) => {
+      const match =
+        product.productId.toString() === productIdStr &&
+        product.size === size &&
+        product.color === color;
+
+      console.log("Checking:", {
+        dbId: product.productId.toString(),
+        inputId: productIdStr,
+        sizeMatch: product.size === size,
+        colorMatch: product.color === color,
+        matched: match,
+      });
+
+      return !match;
+    });
+
+    if (updatedProducts.length === cart.products.length) {
+      return res.status(404).json({ message: "Product not found in cart" });
+    }
+
+    cart.products = updatedProducts;
+    cart.totalPrice = updatedProducts.reduce(
+      (accum, product) => accum + product.price * product.quantity,
+      0
+    );
+
+    await cart.save();
+
+    return res.status(200).json({ message: "Product removed from cart", cart });
+  } catch (error) {
+    console.error("Error:", error);
+    return res.status(500).json({ success: false, message: error.message });
+  }
+};

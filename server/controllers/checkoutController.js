@@ -14,6 +14,7 @@ export const createCheckout = async (req, res) => {
         "Checkout Items is empty, Please select a certain item to checkout.",
     });
   }
+  console.log("this i woo");
   try {
     // create a new checkout session.
     const newCheckout = await checkoutModal.create({

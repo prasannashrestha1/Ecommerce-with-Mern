@@ -26,6 +26,7 @@ export const authUser = async (req, res, next) => {
 };
 
 // middleware to check if the uer is an admin
+
 export const admin = (req, res, next) => {
   try {
     if (req.user && req.user.role === "admin") {

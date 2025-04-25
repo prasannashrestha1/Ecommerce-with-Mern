@@ -1,8 +1,13 @@
 import { AiOutlineMinus, AiOutlinePlus } from "react-icons/ai";
-import { useDispatch } from "react-redux";
-import { updateCartItemQuantity } from "./../../redux/slices/cartSlice";
+import { useDispatch, useSelector } from "react-redux";
+import {
+  fetchCart,
+  removeFromCart,
+  updateCartItemQuantity,
+} from "./../../redux/slices/cartSlice";
 import { MdDelete } from "react-icons/md";
-const CartContent = ({ cart, userId, guestId }) => {
+import { useEffect } from "react";
+const CartContent = ({ cart, userId, guestId, refetchCart }) => {
   const cartProducts = [
     {
       productId: 1,
@@ -69,6 +74,7 @@ const CartContent = ({ cart, userId, guestId }) => {
     },
   ];
   const dispatch = useDispatch();
+  const { user } = useSelector((state) => state.auth);
 
   // handle adding or subtracting to the cart
   const handleAddToCart = (productId, delta, quantity, size, color) => {
@@ -87,9 +93,10 @@ const CartContent = ({ cart, userId, guestId }) => {
     }
   };
 
-  const handleRemoveFromCart = (productId, size, color) => {
+  const handleRemoveFromCart = async (productId, size, color) => {
     dispatch(removeFromCart({ productId, guestId, userId, size, color }));
   };
+
   return (
     <div className="h-full overflow-y-scroll divide-y flex flex-col gap-2  text-start">
       {cart.products.map((item, index) => (

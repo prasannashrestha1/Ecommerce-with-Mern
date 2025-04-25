@@ -3,6 +3,7 @@ import { IoMdClose } from "react-icons/io";
 import CartContent from "../Cart/CartContent";
 import { useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
+import { fetchCart } from "../../redux/slices/cartSlice";
 
 const CartDrawer = ({ cartOpen, handleCartToggle }) => {
   const navigate = useNavigate();
@@ -16,6 +17,7 @@ const CartDrawer = ({ cartOpen, handleCartToggle }) => {
     }
     navigate("/checkout");
   };
+
   return (
     <div
       className={` cart-container w-screen sm:w-[440px] ${
