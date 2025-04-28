@@ -238,3 +238,20 @@ export const deleteCart = async (req, res) => {
     return res.status(500).json({ success: false, message: error.message });
   }
 };
+
+export const removeAllItems = async (req, res) => {
+  try {
+    const { cartId } = req.body;
+    const cart = await cartModal.findByIdAndUpdate(cartId, { products: [] });
+    return res.status(200).json({
+      success: true,
+      message: "cart Items removed",
+      cart,
+    });
+  } catch (error) {
+    return res.status(500).json({
+      success: false,
+      message: error.message,
+    });
+  }
+};

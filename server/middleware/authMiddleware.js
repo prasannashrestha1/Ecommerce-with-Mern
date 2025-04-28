@@ -3,11 +3,9 @@ import userModal from "../models/UserModal.js";
 
 export const authUser = async (req, res, next) => {
   try {
-    console.log(req.headers);
     const authHeader = req.headers["authorization"];
     if (authHeader && authHeader.startsWith("Bearer ")) {
       const token = authHeader.split(" ")[1];
-      console.log(token);
       const verifyToken = jwt.verify(token, process.env.JWT_SECRET);
 
       req.user = await userModal

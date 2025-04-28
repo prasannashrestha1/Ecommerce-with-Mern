@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
+import { fetchAllUserOrders } from "../redux/slices/orderSlice";
 
 const MyOrders = () => {
   const navigate = useNavigate();
@@ -36,7 +37,7 @@ const MyOrders = () => {
           </tr>
         </thead>
         <tbody className="text-sm">
-          {orders.length > 0 ? (
+          {orders && orders.length > 0 ? (
             orders.map((orders, index) => (
               <tr
                 onClick={() => navigate(`/order/${orders._id}`)}

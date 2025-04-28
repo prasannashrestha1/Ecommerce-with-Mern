@@ -9,6 +9,7 @@ const Checkout = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const { cart, loading, error } = useSelector((state) => state.cart);
+  const { checkout } = useSelector((state) => state.checkout);
   const { user } = useSelector((state) => state.auth);
   const [checkoutId, setCheckoutId] = useState();
   const [shippingAddress, setShippingAddress] = useState({
@@ -32,7 +33,7 @@ const Checkout = () => {
   const handleCreateCheckout = async (e) => {
     e.preventDefault();
     if (cart && cart.products.length > 0) {
-      const res = await dispatch(
+      dispatch(
         createCheckout({
           checkoutItems: cart.products,
           shippingAddress,
@@ -40,52 +41,53 @@ const Checkout = () => {
           totalPrice: cart.totalPrice,
         })
       );
-      if (res.payload && res.payload._id) {
-        setCheckoutId(res.payload._id);
-        console.log("this is also working"); //set checkout id if checkout is successfull
-      }
-    }
-  };
-
-  const handlePaymentSuccess = async (details) => {
-    try {
-      const response = await axios.put(
-        `${import.meta.env.VITE_BACKEND_URL}/api/checkout/${checkoutId}/pay`,
-        { paymentStatus: "paid", paymentDetails: details },
-        {
-          headers: {
-            Authorization: `Bearer ${JSON.parse(
-              localStorage.getItem("userToken")
-            )}`,
-          },
-        }
-      );
-      await handleFinalizeCheckout(checkoutId); //finalize checkout if payment is successfull
-    } catch (error) {
-      console.log(error);
-    }
-  };
-
-  const handleFinalizeCheckout = async (checkoutId) => {
-    try {
-      const response = await axios.post(
-        `${
-          import.meta.env.VITE_BACKEND_URL
-        }/api/checkout/${checkoutId}/finalize`,
-        {},
-        {
-          headers: {
-            Authorization: `Bearer ${JSON.parse(
-              localStorage.getItem("userToken")
-            )}`,
-          },
-        }
-      );
       navigate("/order-confirmation");
-    } catch (error) {
-      console.error(error.message);
     }
   };
+
+  // useEffect(() => {
+  //   navigate("/order-confirmation");
+  // }, [checkout]);
+
+  // const handlePaymentSuccess = async (details) => {
+  //   try {
+  //     const response = await axios.put(
+  //       `${import.meta.env.VITE_BACKEND_URL}/api/checkout/${checkoutId}/pay`,
+  //       { paymentStatus: "paid", paymentDetails: details },
+  //       {
+  //         headers: {
+  //           Authorization: `Bearer ${JSON.parse(
+  //             localStorage.getItem("userToken")
+  //           )}`,
+  //         },
+  //       }
+  //     );
+  //     await handleFinalizeCheckout(checkoutId); //finalize checkout if payment is successfull
+  //   } catch (error) {
+  //     console.log(error);
+  //   }
+  // };
+
+  // const handleFinalizeCheckout = async (checkoutId) => {
+  //   try {
+  //     const response = await axios.post(
+  //       `${
+  //         import.meta.env.VITE_BACKEND_URL
+  //       }/api/checkout/${checkoutId}/finalize`,
+  //       {},
+  //       {
+  //         headers: {
+  //           Authorization: `Bearer ${JSON.parse(
+  //             localStorage.getItem("userToken")
+  //           )}`,
+  //         },
+  //       }
+  //     );
+  //     navigate("/order-confirmation");
+  //   } catch (error) {
+  //     console.error(error.message);
+  //   }
+  // };
 
   if (loading) {
     return <p>Loading Cart...</p>;

@@ -6,14 +6,14 @@ export const getUserOrders = async (req, res) => {
     const orders = await orderModel
       .find({ user: req.user._id })
       .sort({ createdAt: -1 }); //sort by most recent orderss
-    res.status(200).json({
+    return res.status(200).json({
       success: true,
       message: "Orders Fetched Successfully",
       orders,
     });
   } catch (error) {
     res.status(500).json({
-      success: true,
+      success: false,
       message: error.message,
     });
   }

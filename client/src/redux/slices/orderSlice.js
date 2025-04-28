@@ -1,6 +1,7 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import axios from "axios";
 
+const userId = JSON.parse(localStorage.getItem("userToken"));
 // async thunk to fetch user orders
 export const fetchOrderDetails = createAsyncThunk(
   "orders/fetchOrderDetails",
@@ -10,7 +11,7 @@ export const fetchOrderDetails = createAsyncThunk(
         `${import.meta.env.VITE_BACKEND_URL}/api/orders/my-orders/${orderId}`,
         {
           headers: {
-            Authorization: `Bearer ${localStorage.getItem("userToken")}`,
+            Authorization: `Bearer ${userId}`,
           },
         }
       );
@@ -30,7 +31,9 @@ export const fetchAllUserOrders = createAsyncThunk(
         `${import.meta.env.VITE_BACKEND_URL}/api/orders/my-orders`,
         {
           headers: {
-            Authorization: `Bearer ${localStorage.getItem("userToken")}`,
+            Authorization: `Bearer ${JSON.parse(
+              localStorage.getItem("userToken")
+            )}`,
           },
         }
       );
@@ -61,7 +64,7 @@ const orderSlice = createSlice({
       .addCase(fetchAllUserOrders.fulfilled, (state, action) => {
         state.loading = false;
         state.orders = action.payload;
-        totalOrders = Array.isArray(action.payload) ? action.payload.length : 0;
+        state.totalOrders = action.payload.orders.length;
       })
       .addCase(fetchAllUserOrders.rejected, (state, action) => {
         state.loading = true;

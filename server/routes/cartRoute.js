@@ -5,6 +5,7 @@ import {
   deleteCart,
   getUserCart,
   mergeCart,
+  removeAllItems,
 } from "../controllers/cartController.js";
 
 const cartRouter = express.Router();

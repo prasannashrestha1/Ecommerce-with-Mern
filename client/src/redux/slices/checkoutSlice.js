@@ -21,9 +21,10 @@ export const createCheckout = createAsyncThunk(
           },
         }
       );
+      console.log(response.data);
       return response.data;
     } catch (error) {
-      rejectWithValue(error.response.data);
+      return rejectWithValue(error.response.data);
     }
   }
 );
@@ -43,7 +44,6 @@ const checkoutSlice = createSlice({
     });
     builder.addCase(createCheckout.fulfilled, (state, action) => {
       state.loading = false;
-      state.error = null;
       state.checkout = action.payload;
     });
     builder.addCase(createCheckout.rejected, (state, action) => {

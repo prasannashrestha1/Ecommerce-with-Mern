@@ -4,6 +4,52 @@ import cartModal from "./../models/CartModal.js";
 import productModal from "./../models/ProductModal.js";
 
 // creat a new checkout session
+export const newCreateCheckout = async (req, res) => {
+  const { checkoutItems, shippingAddress, paymentMethod, totalPrice } =
+    req.body;
+  if (!checkoutItems || checkoutItems.length === 0) {
+    res.status(400).json({
+      success: false,
+      message:
+        "Checkout Items is empty, Please select a certain item to checkout.",
+    });
+  }
+  console.log("this i woo");
+  try {
+    // create a new checkout session.
+    const newCheckout = await checkoutModal.create({
+      user: req.user._id,
+      checkoutItems,
+      shippingAddress,
+      paymentMethod,
+      totalPrice,
+      paymentStatus: "Not Paid",
+      isPaid: true,
+      paidAt: Date.now(),
+      isFinalized: true,
+      finalizedAt: Date.now(),
+    });
+    await orderModel.create({
+      user: newCheckout.user,
+      orderItems: newCheckout.checkoutItems,
+      shippingAddress: newCheckout.shippingAddress,
+      paymentMethod: newCheckout.paymentMethod,
+      totalPrice: newCheckout.totalPrice,
+      isPaid: true,
+      paidAt: Date.now(),
+      isDelivered: false,
+    });
+    await cartModal.findOneAndUpdate({ user: req.user._id }, { products: [] });
+    console.log(`checkout created for user: ${req.user._id}`);
+    res.status(201).json(newCheckout);
+  } catch (error) {
+    res.status(500).json({
+      success: false,
+      message: error.message,
+    });
+  }
+};
+// creat a new checkout session
 export const createCheckout = async (req, res) => {
   const { checkoutItems, shippingAddress, paymentMethod, totalPrice } =
     req.body;
