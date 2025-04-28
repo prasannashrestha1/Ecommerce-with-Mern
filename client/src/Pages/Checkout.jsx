@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 import Paypal from "../components/Cart/Paypal";
 import { useDispatch, useSelector } from "react-redux";
 import { createCheckout } from "./../redux/slices/checkoutSlice";
+import axios from "axios";
 
 const Checkout = () => {
   const navigate = useNavigate();
@@ -30,9 +31,8 @@ const Checkout = () => {
 
   const handleCreateCheckout = async (e) => {
     e.preventDefault();
-    console.log("works");
     if (cart && cart.products.length > 0) {
-      const res = dispatch(
+      const res = await dispatch(
         createCheckout({
           checkoutItems: cart.products,
           shippingAddress,
@@ -40,7 +40,6 @@ const Checkout = () => {
           totalPrice: cart.totalPrice,
         })
       );
-      console.log(res.data);
       if (res.payload && res.payload._id) {
         setCheckoutId(res.payload._id);
         console.log("this is also working"); //set checkout id if checkout is successfull
@@ -55,7 +54,9 @@ const Checkout = () => {
         { paymentStatus: "paid", paymentDetails: details },
         {
           headers: {
-            Authorization: `Bearer ${localStorage.getItem("userToken")}`,
+            Authorization: `Bearer ${JSON.parse(
+              localStorage.getItem("userToken")
+            )}`,
           },
         }
       );
@@ -74,13 +75,15 @@ const Checkout = () => {
         {},
         {
           headers: {
-            Authorization: `Bearer ${localStorage.getItem("userToken")}`,
+            Authorization: `Bearer ${JSON.parse(
+              localStorage.getItem("userToken")
+            )}`,
           },
         }
       );
       navigate("/order-confirmation");
     } catch (error) {
-      console.eeor(error);
+      console.error(error.message);
     }
   };
 

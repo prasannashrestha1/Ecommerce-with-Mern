@@ -14,8 +14,9 @@ const CartDrawer = ({ cartOpen, handleCartToggle }) => {
     handleCartToggle();
     if (!user) {
       navigate("/login?redirect=checkout");
+    } else {
+      navigate("/checkout");
     }
-    navigate("/checkout");
   };
 
   return (
