@@ -11,7 +11,9 @@ export const fetchAllOrders = createAsyncThunk(
         `${import.meta.env.VITE_BACKEND_URL}/api/admin/orders`,
         {
           headers: {
-            Authorization: `Bearer ${localStorage.getItem("userToken")}`,
+            Authorization: `Bearer ${JSON.parse(
+              localStorage.getItem("userToken")
+            )}`,
           },
         }
       );
@@ -26,14 +28,16 @@ export const fetchAllOrders = createAsyncThunk(
 
 export const updateOrderStatus = createAsyncThunk(
   "adminOrders/updateOrderStatus",
-  async ({ id, status }, { rejectWithValue }) => {
+  async ({ id, status, isDelivered }, { rejectWithValue }) => {
     try {
       const response = await axios.get(
         `${import.meta.env.VITE_BACKEND_URL}/api/admin/orders/${id}`,
-        { status },
+        { status, isDelivered },
         {
           headers: {
-            Authorization: `Bearer ${localStorage.getItem("userToken")}`,
+            Authorization: `Bearer ${JSON.parse(
+              localStorage.getItem("userToken")
+            )}`,
           },
         }
       );
@@ -53,7 +57,9 @@ export const deleteOrder = createAsyncThunk(
         `${import.meta.env.VITE_BACKEND_URL}/api/admin/orders/${id}`,
         {
           headers: {
-            Authorization: `Bearer ${localStorage.getItem("userToken")}`,
+            Authorization: `Bearer ${JSON.parse(
+              localStorage.getItem("userToken")
+            )}`,
           },
         }
       );
@@ -83,13 +89,8 @@ const adminOrderSlice = createSlice({
       })
       .addCase(fetchAllOrders.fulfilled, (state, action) => {
         state.loading = false;
-        state.orders = action.payload;
-        totalOrders = action.payload.length;
-        // calculate total sales
-        const totalSales = action.payload.reduce((order, accum) => {
-          return acc + order.totalPrice;
-        }, 0);
-        state.totalSale = totalSales;
+        state.orders = action.payload.orders;
+        state.totalOrders = action.payload.orders.length;
       })
       .addCase(fetchAllOrders.rejected, (state, action) => {
         state.loading = false;

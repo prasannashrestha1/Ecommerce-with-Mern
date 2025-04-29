@@ -2,8 +2,8 @@ import userModal from "../models/UserModal.js";
 
 export const getAllUsers = async (req, res) => {
   try {
-    const allUsers = await userModal.finnd({});
-    return res.status(400).json({
+    const allUsers = await userModal.find({});
+    return res.status(200).json({
       success: false,
       message: "users fetched successfully",
       allUsers,
@@ -20,7 +20,7 @@ export const createUser = async (req, res) => {
   const { email, name, password, role } = req.body;
 
   try {
-    if (!email || !name || !password || !role) {
+    if (!email || !name || !password) {
       return res.status(400).json({
         success: false,
         message: "All Fields are mandatory.",
@@ -39,9 +39,10 @@ export const createUser = async (req, res) => {
       password,
       role: role || "customer",
     });
-    res.status(400).json({
+    res.status(200).json({
       success: false,
       message: "User Created Successfully",
+      user,
     });
   } catch (error) {
     return res.status(500).json({
@@ -81,9 +82,9 @@ export const deleteUser = async (req, res) => {
   try {
     const user = await userModal.findById(id);
     if (user) {
-      user.deleteOne();
+      await userModal.findByIdAndDelete(id);
       return res.status(200).json({
-        success: false,
+        success: true,
         message: "User deleted successfully",
       });
     } else {

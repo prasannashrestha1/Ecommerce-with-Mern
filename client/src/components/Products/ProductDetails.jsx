@@ -25,7 +25,7 @@ const ProductDetails = ({ productId }) => {
   const [quantity, setQuantity] = useState(1);
   const [isButtonDisabled, setIsButtonDisabled] = useState(false);
   const [selectedImage, setSelectedImage] = useState(
-    selectedProduct && selectedProduct.images
+    selectedProduct && selectedProduct.images.length > 0
       ? selectedProduct.images[0].url
       : []
   );

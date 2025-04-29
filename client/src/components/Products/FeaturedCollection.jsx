@@ -20,7 +20,7 @@ const FeaturedCollection = () => {
           </p>
           <Link
             to="collections/all"
-            className=" text-white  rounded-lg px-6 py-2 max-w-50 bg-primary hover:bg-primary/80 cursor-pointer"
+            className=" text-white text-center rounded-lg px-6 py-2 max-w-50 bg-primary hover:bg-primary/80 cursor-pointer"
           >
             Shop Now
           </Link>

@@ -21,7 +21,7 @@ const UserManagement = () => {
     name: "",
     email: "",
     password: "",
-    role: "Admin",
+    role: "admin",
   });
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -49,12 +49,12 @@ const UserManagement = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    dispatch(createNewUser());
+    dispatch(createNewUser(formData));
     setFormData({
       name: "",
       email: "",
       password: "",
-      role: "Customer",
+      role: "customer",
     });
   };
 
@@ -128,8 +128,8 @@ const UserManagement = () => {
                 className="inpt"
                 required
               >
-                <option value="Customer">Customer</option>
-                <option value="Admin">Admin</option>
+                <option value="customer">Customer</option>
+                <option value="admin">Admin</option>
               </select>
             </div>
           </div>
@@ -187,7 +187,7 @@ const UserManagement = () => {
                 ))
               ) : (
                 <tr aria-colspan={4} className="p-4 text-center text-gray-500">
-                  No Orders Available
+                  <th>No Orders Available</th>
                 </tr>
               )}
             </tbody>

@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import {
@@ -31,12 +31,12 @@ const OrderManagement = () => {
     }
   }, [dispatch, user, navigate]);
 
-  const handleStatusChange = (id, status) => {
+  const handleStatusChange = (id, status, isDelive) => {
     dispatch(updateOrderStatus({ id, status }));
   };
 
-  const handleDelivered = (id) => {
-    console.log({ id });
+  const handleDelivered = (id, status, isDelivered) => {
+    dispatch(updateOrderStatus({ id, status }));
   };
 
   if (loading) return <p>Loading...</p>;

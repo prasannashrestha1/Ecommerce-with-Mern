@@ -1,5 +1,6 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import axios from "axios";
+import { toast } from "sonner";
 
 // get all of the users data
 export const getAllUsers = createAsyncThunk(
@@ -10,7 +11,9 @@ export const getAllUsers = createAsyncThunk(
         `${import.meta.env.VITE_BACKEND_URL}/api/admin/users`,
         {
           headers: {
-            Authorization: `Bearer ${localStorage.getItem("userToken")}`,
+            Authorization: `Bearer ${JSON.parse(
+              localStorage.getItem("userToken")
+            )}`,
           },
         }
       );
@@ -31,12 +34,15 @@ export const createNewUser = createAsyncThunk(
         userData,
         {
           headers: {
-            Authorization: `Bearer ${localStorage.getItem("userToken")}`,
+            Authorization: `Bearer ${JSON.parse(
+              localStorage.getItem("userToken")
+            )}`,
           },
         }
       );
       return response.data;
     } catch (error) {
+      toast.error(error.response.data.message);
       return rejectWithValue(error.response.data);
     }
   }
@@ -52,7 +58,9 @@ export const changeUserType = createAsyncThunk(
         { role },
         {
           headers: {
-            Authorization: `Bearer ${localStorage.getItem("userToken")}`,
+            Authorization: `Bearer ${JSON.parse(
+              localStorage.getItem("userToken")
+            )}`,
           },
         }
       );
@@ -67,10 +75,12 @@ export const deleteUser = createAsyncThunk(
   async (userId, { rejectWithValue }) => {
     try {
       const response = await axios.delete(
-        `${import.meta.env.VITE_BACKEND_URL}/api/users/${userId}`,
+        `${import.meta.env.VITE_BACKEND_URL}/api/admin/users/${userId}`,
         {
           headers: {
-            Authorization: `Bearer ${localStorage.getItem("userToken")}`,
+            Authorization: `Bearer ${JSON.parse(
+              localStorage.getItem("userToken")
+            )}`,
           },
         }
       );
@@ -98,7 +108,7 @@ const adminSlice = createSlice({
       })
       .addCase(getAllUsers.fulfilled, (state, action) => {
         state.loading = false;
-        state.users = action.payload;
+        state.users = action.payload.allUsers;
       })
       .addCase(getAllUsers.rejected, (state, action) => {
         state.loading = false;
@@ -111,7 +121,6 @@ const adminSlice = createSlice({
       })
       .addCase(changeUserType.fulfilled, (state, action) => {
         state.loading = false;
-        state.users = action.payload;
       })
       .addCase(changeUserType.rejected, (state, action) => {
         state.loading = false;
@@ -124,7 +133,7 @@ const adminSlice = createSlice({
       })
       .addCase(createNewUser.fulfilled, (state, action) => {
         state.loading = false;
-        state.users = action.payload;
+        state.users.push(action.payload.user);
       })
       .addCase(createNewUser.rejected, (state, action) => {
         state.loading = false;

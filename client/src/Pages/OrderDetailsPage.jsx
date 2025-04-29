@@ -11,6 +11,7 @@ const OrderDetailsPage = () => {
   useEffect(() => {
     dispatch(fetchOrderDetails(id));
   }, [dispatch, id]);
+  console.log(orderDetails);
 
   // useEffect(() => {
   //   const mockData = {
@@ -84,7 +85,7 @@ const OrderDetailsPage = () => {
                 Order Id: {orderDetails._id}
               </h3>
               <p className="text-sm text-gray-700">
-                {orderDetails.createdAt.toLocaleDateString()}
+                {new Date(orderDetails.createdAt).toLocaleDateString()}
               </p>
             </div>
             {orderDetails.isPaid ? (

@@ -3,11 +3,11 @@ import orderModel from "../models/Order.js";
 
 export const getAllOrders = async (req, res) => {
   try {
-    const order = await orderModel.find({}).populate("User", "name email");
+    const orders = await orderModel.find({}).populate("user", "name email");
     return res.status(200).json({
       success: true,
       message: "All Orders Fetched Successfully",
-      order,
+      orders,
     });
   } catch (error) {
     return res.status(500).json({

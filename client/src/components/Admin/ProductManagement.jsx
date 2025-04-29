@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import {
@@ -7,33 +7,6 @@ import {
 } from "../../redux/slices/adminProductSlice";
 
 const ProductManagement = () => {
-  // const products = [
-  //   {
-  //     _id: 13232,
-  //     name: "shirt",
-  //     price: 110,
-  //     sku: "11123",
-  //   },
-  //   {
-  //     _id: 13232,
-  //     name: "shirt",
-  //     price: 110,
-  //     sku: "11123",
-  //   },
-  //   {
-  //     _id: 13232,
-  //     name: "shirt",
-  //     price: 110,
-  //     sku: "11123",
-  //   },
-  //   {
-  //     _id: 13232,
-  //     name: "shirt",
-  //     price: 110,
-  //     sku: "11123",
-  //   },
-  // ];
-
   const { products, loading, error } = useSelector(
     (state) => state.adminProducts
   );
@@ -49,12 +22,12 @@ const ProductManagement = () => {
     }
   };
 
-  if (loading) return <p>Loading...</p>;
-  if (error) return <p>Error : {error}...</p>;
+  // if (loading) return <p>Loading...</p>;
+  // if (error) return <p>Error : {error}...</p>;
   return (
     <div className="max-w-7xl mx-auto ">
       <h2 className="text-2xl font-bold mb-6">Product Management</h2>
-      <div className="overflow-x-auto shadow-md sm:rounded-lg">
+      <div className="overflow-x-auto overflow-y-auto max-h-[500px] shadow-md sm:rounded-lg">
         <table className="min-w-full text-left text-gray-500 ">
           <thead className="bg-gray-200 uppercase text-xs font-medium">
             <tr className="text-gray-700">
@@ -64,7 +37,7 @@ const ProductManagement = () => {
               <th className="px-4 py-2 ">Actions</th>
             </tr>
           </thead>
-          <tbody className=" text-xs">
+          <tbody className="text-xs">
             {products.length > 0 ? (
               products.map((product, index) => (
                 <tr

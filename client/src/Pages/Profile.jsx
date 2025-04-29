@@ -2,6 +2,7 @@ import React, { useEffect } from "react";
 import MyOrders from "./MyOrders";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
+import { logout } from "../redux/slices/authSlice";
 
 const Profile = () => {
   const { user } = useSelector((state) => state.auth);
@@ -24,10 +25,10 @@ const Profile = () => {
       {/* logout section */}
       <div className=" bg-white  w-full lg:w-1/4">
         <div className=" px-6 pt-6 pb-20 rounded-lg shadow-xl border-stroke border">
-          <h2 className="mb-4 text-2xl font-bold">{user?.name}</h2>
+          <h2 className="mb-4 text-2xl font-bold break-words">{user?.name}</h2>
           <p className="mb-4 text-md break-words">{user?.email}</p>
           <button
-            onClick={handleLogout}
+            onClick={() => handleLogout()}
             className=" bg-red-400 hover:bg-red-500 rounded-sm p-2 w-full text-center text-sm text-white"
           >
             Log out

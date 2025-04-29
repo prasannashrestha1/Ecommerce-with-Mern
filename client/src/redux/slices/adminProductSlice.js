@@ -8,7 +8,9 @@ export const getAllProducts = createAsyncThunk(
       `${import.meta.env.VITE_BACKEND_URL}/api/admin/products`,
       {
         headers: {
-          Authorization: `Bearer ${localStorage.getItem("userToken")}`,
+          Authorization: `Bearer ${JSON.parse(
+            localStorage.getItem("userToken")
+          )}`,
         },
       }
     );
@@ -41,10 +43,11 @@ export const deleteProduct = createAsyncThunk(
     try {
       const response = await axios.delete(
         `${import.meta.env.VITE_BACKEND_URL}/api/admin/products/${id}`,
-        {},
         {
           headers: {
-            Authorization: `Bearer ${localStorage.getItem("userToken")}`,
+            Authorization: `Bearer ${JSON.parse(
+              localStorage.getItem("userToken")
+            )}`,
           },
         }
       );
@@ -72,7 +75,7 @@ const adminProductSlice = createSlice({
       })
       .addCase(getAllProducts.fulfilled, (state, action) => {
         state.loading = true;
-        state.products = action.payload;
+        state.products = action.payload.products;
       })
       .addCase(getAllProducts.rejected, (state, action) => {
         state.loading = true;
@@ -98,7 +101,7 @@ const adminProductSlice = createSlice({
       })
       .addCase(deleteProduct.fulfilled, (state, action) => {
         state.loading = true;
-        state.product = action.payload;
+        state.product = action.payload.product;
       })
       .addCase(deleteProduct.rejected, (state, action) => {
         state.loading = true;

@@ -1,100 +1,12 @@
 import React, { useEffect, useRef, useState } from "react";
 import { FaAngleLeft, FaAngleRight } from "react-icons/fa6";
 import axios from "axios";
+import { useNavigate } from "react-router-dom";
 
 const NewArrivals = () => {
   const scrollContainer = useRef(null);
   const [newArrivals, setNewArrivals] = useState([]);
-  // const ad = [
-  //   {
-  //     _id: "1",
-  //     name: "Stylish Jacket",
-  //     price: 200,
-  //     images: [
-  //       {
-  //         url: "https://fastly.picsum.photos/id/134/200/300.jpg?hmac=KN18cCDft4FPM0XJpr7EhZLtUP6Z4cZqtF8KThtTvsI",
-  //         altText: "Jacket",
-  //       },
-  //     ],
-  //   },
-  //   {
-  //     _id: "2",
-  //     name: "Stylish Jacket",
-  //     price: 200,
-  //     images: [
-  //       {
-  //         url: "https://piscum.photos/500/500?random=2",
-  //         altText: "Jacket",
-  //       },
-  //     ],
-  //   },
-  //   {
-  //     _id: "3",
-  //     name: "Stylish Jacket",
-  //     price: 200,
-  //     images: [
-  //       {
-  //         url: "https://randomwordgenerator.com/img/picture-generator/tt-4269869_640.jpg",
-  //         altText: "Jacket",
-  //       },
-  //     ],
-  //   },
-  //   {
-  //     _id: "4",
-  //     name: "Stylish Jacket",
-  //     price: 200,
-  //     images: [
-  //       {
-  //         url: "https://randomwordgenerator.com/img/picture-generator/55e4d44a4854ad14f1dc8460962e33791c3ad6e04e507440762a7cd59f4bc1_640.jpg",
-  //         altText: "Jacket",
-  //       },
-  //     ],
-  //   },
-  //   {
-  //     _id: "5",
-  //     name: "Stylish Jacket",
-  //     price: 200,
-  //     images: [
-  //       {
-  //         url: "https://piscum.photos/500/500?random=5",
-  //         altText: "Jacket",
-  //       },
-  //     ],
-  //   },
-  //   {
-  //     _id: "6",
-  //     name: "Stylish Jacket",
-  //     price: 200,
-  //     images: [
-  //       {
-  //         url: "https://randomwordgenerator.com/img/picture-generator/55e4d44a4854ad14f1dc8460962e33791c3ad6e04e507440762a7cd59f4bc1_640.jpg",
-  //         altText: "Jacket",
-  //       },
-  //     ],
-  //   },
-  //   {
-  //     _id: "7",
-  //     name: "Stylish Jacket",
-  //     price: 200,
-  //     images: [
-  //       {
-  //         url: "https://randomwordgenerator.com/img/picture-generator/57e6d1454e51a914f1dc8460962e33791c3ad6e04e50744172277fd7914bc3_640.jpg",
-  //         altText: "Jacket",
-  //       },
-  //     ],
-  //   },
-  //   {
-  //     _id: "8",
-  //     name: "Stylish Jacket",
-  //     price: 200,
-  //     images: [
-  //       {
-  //         url: "https://randomwordgenerator.com/img/picture-generator/55e4d44a4854ad14f1dc8460962e33791c3ad6e04e507440762a7cd59f4bc1_640.jpg",
-  //         altText: "Jacket",
-  //       },
-  //     ],
-  //   },
-  // ];
+  const navigate = useNavigate();
 
   const scrollRight = () => {
     // console.log(scrollContainer.current.scrollWidth);
@@ -193,6 +105,7 @@ const NewArrivals = () => {
         >
           {newArrivals.map((item, index) => (
             <div
+              onClick={() => navigate(`/product/${item._id}`)}
               key={index}
               className="h-[200px] sm:h-[250px] md:h-[350px] rounded-lg min-w-[220px] md:min-w-[300px] flex mb-4 relative"
             >

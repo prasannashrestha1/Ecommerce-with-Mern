@@ -38,10 +38,10 @@ const MyOrders = () => {
         </thead>
         <tbody className="text-sm">
           {orders && orders.length > 0 ? (
-            orders.map((orders, index) => (
+            orders.map((order, index) => (
               <tr
-                onClick={() => navigate(`/order/${orders._id}`)}
-                key={orders._id}
+                onClick={() => navigate(`/order/${order._id}`)}
+                key={order._id}
                 className={`text-center hover:bg-stroke ${
                   index % 2 === 0 ? "bg-stroke/20" : "bg-stroke"
                 }`}
@@ -49,26 +49,26 @@ const MyOrders = () => {
                 <td className="px-4 py-2 ">
                   <img
                     className="w-5 h-5 mx-auto"
-                    src={orders.orderItems[0].image}
+                    src={order.orderItems[0].image}
                     alt=""
                   />
                 </td>
-                <td className="px-4 py-2 ">{orders._id}</td>
+                <td className="px-4 py-2 ">{order._id}</td>
                 <td className="px-4 py-2 ">
-                  {new Date(orders.createdAt).toLocaleDateString()}
+                  {new Date(order.createdAt).toLocaleDateString()}
                 </td>
-                <td className="px-4 py-2 ">{orders.shippingAddress.city}</td>
-                <td className="px-4 py-2 ">{orders.orderItems.length}</td>
-                <td className="px-4 py-2 ">{orders.totalPrice}</td>
+                <td className="px-4 py-2 ">{order.shippingAddress.city}</td>
+                <td className="px-4 py-2 ">{order.orderItems.length}</td>
+                <td className="px-4 py-2 ">{order.totalPrice}</td>
                 <td className="px-4 py-2 ">
                   <span
                     className={`px-2 py-1 text-xs rounded-sm  ${
-                      orders.isPaid
+                      order.isPaid
                         ? "bg-green-200 text-green-500"
                         : "bg-red-200 text-red-500"
                     }`}
                   >
-                    {orders.isPaid ? "Paid" : "Pending"}
+                    {order.isPaid ? "Paid" : "Pending"}
                   </span>
                 </td>
               </tr>
