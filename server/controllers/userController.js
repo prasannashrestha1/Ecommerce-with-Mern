@@ -30,9 +30,7 @@ export const signup = async (req, res) => {
     await user.save();
 
     const payload = { user: { id: user._id, role: user.role } };
-    const token = jwt.sign(payload, process.env.JWT_SECRET, {
-      expiresIn: "40h",
-    });
+    const token = jwt.sign(payload, process.env.JWT_SECRET);
     res.status(201).json({
       token,
       success: true,
@@ -79,9 +77,7 @@ export const login = async (req, res) => {
     const user = validUser;
 
     const payload = { user: { id: user._id, role: user.role } };
-    const token = jwt.sign(payload, process.env.JWT_SECRET, {
-      expiresIn: "40h",
-    });
+    const token = jwt.sign(payload, process.env.JWT_SECRET);
     res.json({
       token,
       success: true,

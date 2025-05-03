@@ -6,8 +6,8 @@ import { useDispatch, useSelector } from "react-redux";
 import { mergeCart } from "../redux/slices/cartSlice";
 
 const Login = () => {
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
+  const [email, setEmail] = useState("adam@adam.com");
+  const [password, setPassword] = useState("adam@adam.com");
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const location = useLocation();

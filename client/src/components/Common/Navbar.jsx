@@ -62,9 +62,17 @@ const Navbar = () => {
         {/* right icons */}
         <div className="flex space-x-4 ">
           <div className="flex gap-4 text-sm items-center">
-            <Link to="/admin" className="bg-black text-white text-xs px-2 py-1">
-              Admin
-            </Link>
+            {user && user?.role === "admin" ? (
+              <Link
+                to="/admin"
+                className="bg-black text-white text-xs px-2 py-1"
+              >
+                Admin
+              </Link>
+            ) : (
+              ""
+            )}
+
             {user ? (
               <Link to="/profile" className="hover:text-primary ">
                 <BsPersonFill className="w-4 h-4" />
